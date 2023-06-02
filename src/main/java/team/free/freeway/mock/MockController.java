@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-import static team.free.freeway.mock.StationStatus.AVAILABLE;
-import static team.free.freeway.mock.StationStatus.SOME_AVAILABLE;
-import static team.free.freeway.mock.StationStatus.UNAVAILABLE;
+import static team.free.freeway.domain.StationStatus.AVAILABLE;
+import static team.free.freeway.domain.StationStatus.SOME_AVAILABLE;
+import static team.free.freeway.domain.StationStatus.UNAVAILABLE;
 
 @Slf4j
 @RequiredArgsConstructor
