@@ -13,7 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import java.util.List;
 
 import static team.free.freeway.init.constant.StationExcelIndex.LINE_ID_INDEX;
 import static team.free.freeway.init.constant.StationExcelIndex.LINE_NAME_INDEX;
@@ -54,6 +57,9 @@ public class Station {
 
     @Column(name = "station_contact")
     private String contact;
+
+    @OneToMany(mappedBy = "station")
+    private List<StationExit> exits;
 
     @Builder
     protected Station(String id, String name, Coordinate coordinate, String lineId, String lineName,
