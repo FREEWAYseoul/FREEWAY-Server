@@ -12,6 +12,6 @@ class StationInitializerTest {
 
     @Test
     void initializeStation() throws Exception {
-        stationInitializer.initializeStation();
+        stationInitializer.setStationContact();
     }
 }

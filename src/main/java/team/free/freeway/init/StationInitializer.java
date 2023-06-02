@@ -14,7 +14,9 @@ import team.free.freeway.repository.StationRepository;
 
 import java.io.IOException;
 
+import static team.free.freeway.init.constant.StationExcelIndex.CONTACT_STATION_NAME_INDEX;
 import static team.free.freeway.init.constant.StationExcelIndex.LINE_NAME_INDEX;
+import static team.free.freeway.init.constant.StationExcelIndex.STATION_CONTACT_INDEX;
 import static team.free.freeway.init.constant.StationExcelIndex.STATION_NAME_INDEX;
 
 @Transactional
@@ -42,6 +44,22 @@ public class StationInitializer {
             Location location = kakaoAPIManager.getStationLocationInfo(stationName, lineName);
 
             stationRepository.save(Station.of(stationName, row, location));
+        }
+    }
+
+    public void setStationContact() throws IOException {
+        Sheet sheet = excelReader.readSheet(STATION_DETAILS_PATH);
+        int lastRowNum = sheet.getLastRowNum();
+
+        for (int i = 0; i <= lastRowNum; i++) {
+            Row row = sheet.getRow(i);
+            String contact = row.getCell(STATION_CONTACT_INDEX).toString();
+            String stationName = row.getCell(CONTACT_STATION_NAME_INDEX).toString();
+            stationName = StationNameUtils.getPureStationName(stationName);
+
+            Station station = stationRepository.findByName(stationName)
+                    .orElseThrow(() -> null);
+            station.updateContact(contact);
         }
     }
 }

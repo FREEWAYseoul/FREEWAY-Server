@@ -82,4 +82,8 @@ public class Station {
                 .address(location.getAddress())
                 .build();
     }
+
+    public void updateContact(String contact) {
+        this.contact = contact;
+    }
 }
