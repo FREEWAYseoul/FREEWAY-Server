@@ -27,12 +27,11 @@ public class StationInitializer {
     private static final String STATION_CODE_INFO_PATH = "/Users/jcw/Develop/Free-Way/src/main/resources/station_info_only2.xlsx";
     private static final String STATION_DETAILS_PATH = "/Users/jcw/Develop/Free-Way/src/main/resources/station_details.xlsx";
 
-    private final ExcelReader excelReader;
     private final KakaoAPIManager kakaoAPIManager;
     private final StationRepository stationRepository;
 
     public void initializeStation() throws IOException {
-        Sheet sheet = excelReader.readSheet(STATION_CODE_INFO_PATH);
+        Sheet sheet = ExcelReader.readSheet(STATION_CODE_INFO_PATH);
         int lastRowNum = sheet.getLastRowNum();
 
         for (int i = 1; i <= lastRowNum; i++) {
@@ -48,7 +47,7 @@ public class StationInitializer {
     }
 
     public void setStationContact() throws IOException {
-        Sheet sheet = excelReader.readSheet(STATION_DETAILS_PATH);
+        Sheet sheet = ExcelReader.readSheet(STATION_DETAILS_PATH);
         int lastRowNum = sheet.getLastRowNum();
 
         for (int i = 0; i <= lastRowNum; i++) {

@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Elevator;
 import team.free.freeway.domain.Station;
 import team.free.freeway.domain.StationExit;
+import team.free.freeway.domain.value.ElevatorStatus;
 import team.free.freeway.init.dto.ElevatorLocation;
+import team.free.freeway.init.dto.ElevatorStatusInfo;
 import team.free.freeway.init.util.GeographicalDistanceUtils;
 import team.free.freeway.init.util.SeoulOpenAPIManager;
 import team.free.freeway.init.util.StationNameUtils;
@@ -96,7 +98,7 @@ public class ElevatorInitializer {
         }
     }
 
-    private static String getNearestExit(List<StationExit> exits, Elevator elevator, double minDistance) {
+    private String getNearestExit(List<StationExit> exits, Elevator elevator, double minDistance) {
         String nearestExit = null;
         for (StationExit exit : exits) {
             double distance =
@@ -107,5 +109,41 @@ public class ElevatorInitializer {
             }
         }
         return nearestExit;
+    }
+
+    public void initializeElevatorStatusMapping() {
+        List<Station> stations = stationRepository.findAll();
+        Map<String, List<ElevatorStatusInfo>> statusInfoMap = seoulOpenAPIManager.getElevatorStatus();
+        for (Station station : stations) {
+            mappingElevator(station, statusInfoMap);
+        }
+    }
+
+    private void mappingElevator(Station station, Map<String, List<ElevatorStatusInfo>> elevatorStatusMap) {
+        List<Elevator> elevators = station.getElevators();
+        List<ElevatorStatusInfo> elevatorStatusInfoList = elevatorStatusMap.get(station.getName());
+        if (elevatorStatusInfoList == null) {
+            return;
+        }
+
+        for (Elevator elevator : elevators) {
+            updateDescriptionAndStatus(elevatorStatusInfoList, elevator);
+            if (elevator.getStatus() == null) {
+                elevator.updateElevatorStatus(ElevatorStatus.UNKNOWN);
+            }
+        }
+    }
+
+    private void updateDescriptionAndStatus(List<ElevatorStatusInfo> elevatorStatusInfoList, Elevator elevator) {
+        for (ElevatorStatusInfo elevatorStatusInfo : elevatorStatusInfoList) {
+            String nearestExit = elevator.getNearestExit();
+            String location = elevatorStatusInfo.getLocation();
+            if (location.contains(nearestExit)) {
+                elevator.updateDescription(elevatorStatusInfo.getStationName() + "-" + elevatorStatusInfo.getElevatorName());
+                String status = elevatorStatusInfo.getStatus();
+                elevator.updateElevatorStatus(ElevatorStatus.of(status));
+                break;
+            }
+        }
     }
 }

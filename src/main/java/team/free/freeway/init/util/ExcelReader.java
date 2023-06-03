@@ -11,7 +11,7 @@ import java.io.IOException;
 @Component
 public class ExcelReader {
 
-    public Sheet readSheet(String filePath) throws IOException {
+    public static Sheet readSheet(String filePath) throws IOException {
         FileInputStream file = new FileInputStream(filePath);
         Workbook workbook = new XSSFWorkbook(file);
 

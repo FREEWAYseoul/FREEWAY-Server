@@ -61,4 +61,12 @@ public class Elevator {
     public void updateNearestExit(String nearestExit) {
         this.nearestExit = nearestExit;
     }
+
+    public void updateDescription(String description) {
+        this.description = description;
+    }
+
+    public void updateElevatorStatus(ElevatorStatus status) {
+        this.status = status;
+    }
 }
