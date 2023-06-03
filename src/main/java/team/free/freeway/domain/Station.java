@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.Row;
+import team.free.freeway.domain.value.Coordinate;
+import team.free.freeway.domain.value.StationStatus;
 import team.free.freeway.init.dto.Location;
 
 import javax.persistence.Column;
@@ -15,7 +17,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import java.util.List;
 
 import static team.free.freeway.init.constant.StationExcelIndex.LINE_ID_INDEX;
@@ -60,6 +61,9 @@ public class Station {
 
     @OneToMany(mappedBy = "station")
     private List<StationExit> exits;
+
+    @OneToMany(mappedBy = "station")
+    private List<Elevator> elevators;
 
     @Builder
     protected Station(String id, String name, Coordinate coordinate, String lineId, String lineName,

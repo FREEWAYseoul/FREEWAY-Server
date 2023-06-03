@@ -3,7 +3,6 @@ package team.free.freeway.init;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import team.free.freeway.domain.Coordinate;
 import team.free.freeway.domain.Station;
 import team.free.freeway.domain.StationExit;
 import team.free.freeway.init.dto.Location;
@@ -41,12 +40,8 @@ public class StationExitInitializer {
     }
 
     private boolean validDistance(Station station, Location exit) {
-        Coordinate stationCoordinate = station.getCoordinate();
-        double distance = GeographicalDistanceUtils.calculateDistance(
-                Double.parseDouble(stationCoordinate.getLatitude()), Double.parseDouble(stationCoordinate.getLongitude()),
-                Double.parseDouble(exit.getLatitude()), Double.parseDouble(exit.getLongitude())
-        );
-
+        double distance = GeographicalDistanceUtils
+                .calculateDistance(station.getCoordinate(), exit.extractCoordinate());
         return !(distance >= 500);
     }
 }

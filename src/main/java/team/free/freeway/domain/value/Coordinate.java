@@ -1,4 +1,4 @@
-package team.free.freeway.domain;
+package team.free.freeway.domain.value;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

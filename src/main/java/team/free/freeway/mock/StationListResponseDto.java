@@ -2,7 +2,7 @@ package team.free.freeway.mock;
 
 import lombok.Builder;
 import lombok.Getter;
-import team.free.freeway.domain.StationStatus;
+import team.free.freeway.domain.value.StationStatus;
 
 @Getter
 public class StationListResponseDto {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.free.freeway.domain.value.Coordinate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,4 +21,8 @@ public class Location {
 
     @JsonAlias("address_name")
     private String address;
+
+    public Coordinate extractCoordinate() {
+        return new Coordinate(latitude, longitude);
+    }
 }
