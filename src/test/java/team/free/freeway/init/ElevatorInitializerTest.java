@@ -12,6 +12,6 @@ class ElevatorInitializerTest {
 
     @Test
     void test() throws Exception {
-        elevatorInitializer.initializeElevator();
+        elevatorInitializer.initializeElevatorNearestExit();
     }
 }

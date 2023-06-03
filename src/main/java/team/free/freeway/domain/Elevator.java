@@ -57,4 +57,8 @@ public class Elevator {
         this.station = station;
         station.getElevators().add(this);
     }
+
+    public void updateNearestExit(String nearestExit) {
+        this.nearestExit = nearestExit;
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Elevator;
 import team.free.freeway.domain.Station;
+import team.free.freeway.domain.StationExit;
 import team.free.freeway.init.dto.ElevatorLocation;
 import team.free.freeway.init.util.GeographicalDistanceUtils;
 import team.free.freeway.init.util.SeoulOpenAPIManager;
@@ -74,5 +75,37 @@ public class ElevatorInitializer {
         double distance = GeographicalDistanceUtils
                 .calculateDistance(station.getCoordinate(), elevatorLocation.extractCoordinate());
         return distance < 500;
+    }
+
+    public void initializeElevatorNearestExit() {
+        List<Station> stations = stationRepository.findAll();
+        for (Station station : stations) {
+            setNearestExit(station);
+        }
+    }
+
+    private void setNearestExit(Station station) {
+        List<Elevator> elevators = station.getElevators();
+        List<StationExit> exits = station.getExits();
+
+        for (Elevator elevator : elevators) {
+            double minDistance = 1_000_000;
+            String nearestExit = getNearestExit(exits, elevator, minDistance);
+
+            elevator.updateNearestExit(nearestExit);
+        }
+    }
+
+    private static String getNearestExit(List<StationExit> exits, Elevator elevator, double minDistance) {
+        String nearestExit = null;
+        for (StationExit exit : exits) {
+            double distance =
+                    GeographicalDistanceUtils.calculateDistance(elevator.getCoordinate(), exit.getCoordinate());
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestExit = exit.getExitNumber();
+            }
+        }
+        return nearestExit;
     }
 }
