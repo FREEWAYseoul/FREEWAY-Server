@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.free.freeway.domain.value.Coordinate;
-import team.free.freeway.init.dto.Location;
+import team.free.freeway.init.dto.value.Location;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;

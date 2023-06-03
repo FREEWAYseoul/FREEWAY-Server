@@ -1,4 +1,4 @@
-package team.free.freeway.init.dto;
+package team.free.freeway.init.dto.value;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AccessLevel;

@@ -3,10 +3,10 @@ package team.free.freeway.init.util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import team.free.freeway.init.dto.ElevatorLocation;
+import team.free.freeway.init.dto.value.ElevatorLocation;
 import team.free.freeway.init.dto.ElevatorLocationDto;
 import team.free.freeway.init.dto.ElevatorStatusDto;
-import team.free.freeway.init.dto.ElevatorStatusInfo;
+import team.free.freeway.init.dto.value.ElevatorStatusInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

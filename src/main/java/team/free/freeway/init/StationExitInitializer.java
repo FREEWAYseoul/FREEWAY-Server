@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Station;
 import team.free.freeway.domain.StationExit;
-import team.free.freeway.init.dto.Location;
+import team.free.freeway.init.dto.value.Location;
 import team.free.freeway.init.util.GeographicalDistanceUtils;
 import team.free.freeway.init.util.KakaoAPIManager;
 import team.free.freeway.repository.StationExitRepository;

@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Station;
-import team.free.freeway.init.dto.Location;
+import team.free.freeway.init.dto.value.Location;
 import team.free.freeway.init.util.ExcelReader;
 import team.free.freeway.init.util.KakaoAPIManager;
 import team.free.freeway.init.util.StationNameUtils;
@@ -53,8 +53,8 @@ public class StationInitializer {
         for (int i = 0; i <= lastRowNum; i++) {
             Row row = sheet.getRow(i);
             String contact = row.getCell(STATION_CONTACT_INDEX).toString();
-            String stationName = row.getCell(CONTACT_STATION_NAME_INDEX).toString();
-            stationName = StationNameUtils.getPureStationName(stationName);
+            String stationName = StationNameUtils
+                    .getPureStationName(row.getCell(CONTACT_STATION_NAME_INDEX).toString());
 
             Station station = stationRepository.findByName(stationName)
                     .orElseThrow(() -> null);

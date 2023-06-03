@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.Row;
 import team.free.freeway.domain.value.Coordinate;
 import team.free.freeway.domain.value.StationStatus;
-import team.free.freeway.init.dto.Location;
+import team.free.freeway.init.dto.value.Location;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;

@@ -9,5 +9,6 @@ public class StationExcelIndex {
     public static final int STATION_NAME_INDEX = 5;
 
     public static final int CONTACT_STATION_NAME_INDEX = 1;
+    public static final int CONTACT_STATION_LINE_INDEX = 3;
     public static final int STATION_CONTACT_INDEX = 13;
 }
