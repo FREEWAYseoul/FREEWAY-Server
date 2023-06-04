@@ -3,10 +3,12 @@ package team.free.freeway.init.util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import team.free.freeway.init.dto.value.ElevatorLocation;
 import team.free.freeway.init.dto.ElevatorLocationDto;
 import team.free.freeway.init.dto.ElevatorStatusDto;
+import team.free.freeway.init.dto.StationContactDto;
+import team.free.freeway.init.dto.value.ElevatorLocation;
 import team.free.freeway.init.dto.value.ElevatorStatusInfo;
+import team.free.freeway.init.dto.value.StationContact;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ public class SeoulOpenAPIManager {
     private static final String SEOUL_API_HOST = "http://openapi.seoul.go.kr:8088/";
     private static final String ELEVATOR_LOCATION_REQUEST_ENDPOINT = "/tbTraficElvtr";
     private static final String ELEVATOR_STATUS_REQUEST_ENDPOINT = "/SeoulMetroFaciInfo";
+    private static final String STATION_CONTACT_REQUEST_ENDPOINT = "/StationAdresTelno";
     private static final String RESPONSE_TYPE = "/json";
     private static final String ELEVATOR_STATUS_REQUEST_SIZE1 = "/1/1000";
     private static final String ELEVATOR_STATUS_REQUEST_SIZE2 = "/1001/2000";
@@ -81,5 +84,13 @@ public class SeoulOpenAPIManager {
             value.add(elevatorStatusInfo);
             elevatorStatusInfoMap.put(stationName, value);
         }
+    }
+
+    public List<StationContact> getStationContactList() {
+        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE + STATION_CONTACT_REQUEST_ENDPOINT +
+                ELEVATOR_STATUS_REQUEST_SIZE1;
+
+        return restTemplate.getForObject(url, StationContactDto.class)
+                .getStationContactRow().getStationContactList();
     }
 }
