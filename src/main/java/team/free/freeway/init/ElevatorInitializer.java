@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Elevator;
 import team.free.freeway.domain.Station;
-import team.free.freeway.domain.StationExit;
+import team.free.freeway.domain.Exit;
 import team.free.freeway.domain.value.ElevatorStatus;
 import team.free.freeway.init.dto.value.ElevatorLocation;
 import team.free.freeway.init.dto.value.ElevatorStatusInfo;
@@ -35,6 +35,10 @@ public class ElevatorInitializer {
 
         List<Station> stations = stationRepository.findAll();
         for (Station station : stations) {
+            if (station.getSubwayLine().getId().equals("2")) {
+                continue;
+            }
+
             mappingStationAndElevator(elevatorLocationMap, station);
         }
     }
@@ -82,13 +86,17 @@ public class ElevatorInitializer {
     public void initializeElevatorNearestExit() {
         List<Station> stations = stationRepository.findAll();
         for (Station station : stations) {
+            if (station.getSubwayLine().getId().equals("2")) {
+                continue;
+            }
+
             setNearestExit(station);
         }
     }
 
     private void setNearestExit(Station station) {
         List<Elevator> elevators = station.getElevators();
-        List<StationExit> exits = station.getExits();
+        List<Exit> exits = station.getExits();
 
         for (Elevator elevator : elevators) {
             double minDistance = 1_000_000;
@@ -98,9 +106,9 @@ public class ElevatorInitializer {
         }
     }
 
-    private String getNearestExit(List<StationExit> exits, Elevator elevator, double minDistance) {
+    private String getNearestExit(List<Exit> exits, Elevator elevator, double minDistance) {
         String nearestExit = null;
-        for (StationExit exit : exits) {
+        for (Exit exit : exits) {
             double distance =
                     GeographicalDistanceUtils.calculateDistance(elevator.getCoordinate(), exit.getCoordinate());
             if (distance < minDistance) {
@@ -115,6 +123,10 @@ public class ElevatorInitializer {
         List<Station> stations = stationRepository.findAll();
         Map<String, List<ElevatorStatusInfo>> statusInfoMap = seoulOpenAPIManager.getElevatorStatus();
         for (Station station : stations) {
+            if (station.getSubwayLine().getId().equals("2")) {
+                continue;
+            }
+
             mappingElevator(station, statusInfoMap);
         }
     }

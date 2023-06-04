@@ -1,5 +1,6 @@
 package team.free.freeway.init.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -7,14 +8,15 @@ import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import team.free.freeway.init.dto.value.Location;
 import team.free.freeway.init.dto.LocationDto;
+import team.free.freeway.init.dto.value.Location;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class KakaoAPIManager {
 
@@ -34,7 +36,7 @@ public class KakaoAPIManager {
 
         List<Location> locations = locationDto.getLocations();
         for (Location location : locations) {
-            if (location.getName().startsWith(stationName + "역")) {
+            if (location.getName().startsWith(stationName + "역") && location.getName().endsWith(lineName)) {
                 return location;
             }
         }
@@ -64,6 +66,7 @@ public class KakaoAPIManager {
     }
 
     public List<Location> getExitLocationList(String stationName, String lineName) {
+        log.info("station = {}", stationName + " " + lineName);
         List<Location> exits = new ArrayList<>();
         for (int exitNumber = 1; exitNumber <= 20; exitNumber++) {
             String keyword = stationName + "역 " + lineName + " " + exitNumber + "번출구";

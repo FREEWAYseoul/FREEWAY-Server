@@ -1,7 +1,12 @@
 package team.free.freeway.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import team.free.freeway.domain.StationExit;
+import team.free.freeway.domain.Exit;
+import team.free.freeway.domain.value.Coordinate;
 
-public interface StationExitRepository extends JpaRepository<StationExit, Long> {
+import java.util.Optional;
+
+public interface StationExitRepository extends JpaRepository<Exit, Long> {
+
+    Optional<Exit> findByCoordinate(Coordinate coordinate);
 }
