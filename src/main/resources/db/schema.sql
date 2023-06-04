@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS station
     operating_institution VARCHAR(10) NOT NULL,
     station_address       VARCHAR(50) NOT NULL,
     station_contact       VARCHAR(15),
+    station_image_url     VARCHAR(100),
     line_id               VARCHAR(3)  NOT NULL,
     UNIQUE (latitude, longitude),
     FOREIGN KEY (line_id) REFERENCES subway_line (line_id)

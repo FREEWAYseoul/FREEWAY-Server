@@ -7,11 +7,13 @@ import team.free.freeway.init.dto.ElevatorLocationDto;
 import team.free.freeway.init.dto.ElevatorStatusDto;
 import team.free.freeway.init.dto.StationContactDto;
 import team.free.freeway.init.dto.StationFacilitiesDto;
+import team.free.freeway.init.dto.StationImageDto;
 import team.free.freeway.init.dto.value.ElevatorLocation;
 import team.free.freeway.init.dto.value.ElevatorStatusInfo;
 import team.free.freeway.init.dto.value.StationContact;
 import team.free.freeway.init.dto.value.StationFacilities;
 import team.free.freeway.init.dto.value.StationFacilitiesRow;
+import team.free.freeway.init.dto.value.StationImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ public class SeoulOpenAPIManager {
     private static final String ELEVATOR_STATUS_REQUEST_ENDPOINT = "/SeoulMetroFaciInfo";
     private static final String STATION_CONTACT_REQUEST_ENDPOINT = "/StationAdresTelno";
     private static final String STATION_FACILITIES_REQUEST_ENDPOINT = "/TbSeoulmetroStConve";
+    private static final String STATION_IMAGE_REQUEST_ENDPOINT = "/SmrtEmergerncyGuideImg";
     private static final String RESPONSE_TYPE = "/json";
     private static final String ELEVATOR_STATUS_REQUEST_SIZE1 = "/1/1000";
     private static final String ELEVATOR_STATUS_REQUEST_SIZE2 = "/1001/2000";
@@ -110,5 +113,13 @@ public class SeoulOpenAPIManager {
         }
 
         return stationFacilitiesRow.getStationFacilities();
+    }
+
+    public List<StationImage> getStationImage() {
+        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE + STATION_IMAGE_REQUEST_ENDPOINT +
+                ELEVATOR_STATUS_REQUEST_SIZE1;
+
+        return restTemplate.getForObject(url, StationImageDto.class)
+                .getStationImageRow().getStationImageList();
     }
 }

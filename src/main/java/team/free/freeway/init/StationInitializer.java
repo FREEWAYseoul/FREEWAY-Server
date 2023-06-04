@@ -9,6 +9,7 @@ import team.free.freeway.domain.Station;
 import team.free.freeway.domain.SubwayLine;
 import team.free.freeway.init.dto.value.Location;
 import team.free.freeway.init.dto.value.StationContact;
+import team.free.freeway.init.dto.value.StationImage;
 import team.free.freeway.init.util.ExcelReader;
 import team.free.freeway.init.util.KakaoAPIManager;
 import team.free.freeway.init.util.SeoulOpenAPIManager;
@@ -78,5 +79,32 @@ public class StationInitializer {
     private boolean validContact(String lineId, String stationName, StationContact stationContact) {
         String pureStationName = StationNameUtils.getPureStationName(stationContact.getStationName());
         return pureStationName.equals(stationName) && stationContact.getLineName().contains(lineId);
+    }
+
+    public void initializeStationImage() {
+        List<Station> stations = stationRepository.findAll();
+        List<StationImage> stationImageList = seoulOpenAPIManager.getStationImage();
+        for (Station station : stations) {
+            setStationImage(stationImageList, station);
+        }
+    }
+
+    private void setStationImage(List<StationImage> stationImageList, Station station) {
+        for (StationImage stationImage : stationImageList) {
+            String pureStationName = StationNameUtils.getPureStationName(stationImage.getStationName());
+            if (pureStationName.endsWith("역")) {
+                pureStationName = pureStationName.substring(0, pureStationName.length() - 1);
+            }
+
+            if (validImage(station, stationImage, pureStationName)) {
+                station.updateImageUrl(stationImage.getStationImageUrl());
+                return;
+            }
+        }
+    }
+
+    private boolean validImage(Station station, StationImage stationImage, String pureStationName) {
+        return pureStationName.equals(station.getName())
+                && stationImage.getLineId().equals(station.getSubwayLine().getId());
     }
 }

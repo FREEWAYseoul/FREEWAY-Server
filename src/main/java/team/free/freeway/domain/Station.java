@@ -58,6 +58,9 @@ public class Station {
     @Column(name = "station_contact")
     private String contact;
 
+    @Column(name = "station_image_url")
+    private String imageUrl;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "line_id")
     private SubwayLine subwayLine;
@@ -110,5 +113,9 @@ public class Station {
 
     public void addElevator(Elevator elevator) {
         this.elevators.add(elevator);
+    }
+
+    public void updateImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
