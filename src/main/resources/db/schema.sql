@@ -56,3 +56,17 @@ CREATE TABLE IF NOT EXISTS station_elevator
     FOREIGN KEY (station_id) REFERENCES station (station_id),
     FOREIGN KEY (elevator_id) REFERENCES elevator (elevator_id)
 );
+
+CREATE TABLE IF NOT EXISTS facilities
+(
+    station_id                                 VARCHAR(6) NOT NULL PRIMARY KEY,
+    elevator                                   BOOLEAN,
+    wheelchair_lift                            BOOLEAN,
+    disabled_toilet                            BOOLEAN,
+    transit_parking_lot                        BOOLEAN,
+    unmanned_civil_application_issuing_machine BOOLEAN,
+    currency_exchange_kiosk                    BOOLEAN,
+    train_ticket_office                        BOOLEAN,
+    feeding_room                               BOOLEAN,
+    FOREIGN KEY (station_id) REFERENCES station (station_id)
+);

@@ -22,3 +22,6 @@ data:
 
 kakao:
   key: 2a1ed1a7ee3e1896bb5643414d8e9180
+
+rail_portal:
+  disabled_toilet_key: $2a$10$KEWupCWUkxtS22HpOPghN.UL2GjRb88QcMYh8R9/OpkwFJBim8qpe
