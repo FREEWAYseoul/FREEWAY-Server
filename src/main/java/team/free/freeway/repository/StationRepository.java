@@ -12,6 +12,6 @@ public interface StationRepository extends JpaRepository<Station, String> {
 
     Optional<Station> findByName(String stationName);
 
-    @Query("SELECT s FROM Station s WHERE s.name LIKE %:keyword%")
+    @Query("SELECT s FROM Station s WHERE s.name LIKE %:keyword% ORDER BY s.name")
     List<Station> searchByName(@Param("keyword") String keyword);
 }

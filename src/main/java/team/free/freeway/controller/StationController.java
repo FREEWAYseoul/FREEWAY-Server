@@ -19,8 +19,14 @@ public class StationController {
     private final StationService stationService;
 
     @GetMapping("/search")
-    public ResponseEntity<List<StationListResponseDto>> searchStationList(@RequestParam("keyword") String keyword) {
+    public ResponseEntity<List<StationListResponseDto>> searchStations(@RequestParam("keyword") String keyword) {
         List<StationListResponseDto> stationList = stationService.searchStationsByName(keyword);
+        return ResponseEntity.ok().body(stationList);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StationListResponseDto>> allStations() {
+        List<StationListResponseDto> stationList = stationService.getAllStations();
         return ResponseEntity.ok().body(stationList);
     }
 }

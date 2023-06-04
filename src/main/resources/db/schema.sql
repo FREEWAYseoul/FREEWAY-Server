@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS subway_line
 CREATE TABLE IF NOT EXISTS station
 (
     station_id            VARCHAR(6)  NOT NULL PRIMARY KEY,
-    station_name          VARCHAR(10) NOT NULL UNIQUE,
+    station_name          VARCHAR(10) NOT NULL,
     latitude              VARCHAR(20) NOT NULL,
     longitude             VARCHAR(20) NOT NULL,
     station_status        VARCHAR(20),
