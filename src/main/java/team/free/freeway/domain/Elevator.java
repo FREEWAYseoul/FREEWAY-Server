@@ -12,12 +12,9 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Getter
@@ -44,18 +41,9 @@ public class Elevator {
     @Column(name = "nearest_exit")
     private String nearestExit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "station_id")
-    private Station station;
-
     @Builder
     public Elevator(Coordinate coordinate) {
         this.coordinate = coordinate;
-    }
-
-    public void updateStation(Station station) {
-        this.station = station;
-        station.getElevators().add(this);
     }
 
     public void updateNearestExit(String nearestExit) {

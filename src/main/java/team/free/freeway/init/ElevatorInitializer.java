@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Elevator;
-import team.free.freeway.domain.Station;
 import team.free.freeway.domain.Exit;
+import team.free.freeway.domain.Station;
+import team.free.freeway.domain.value.Coordinate;
 import team.free.freeway.domain.value.ElevatorStatus;
 import team.free.freeway.init.dto.value.ElevatorLocation;
 import team.free.freeway.init.dto.value.ElevatorStatusInfo;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
@@ -35,10 +37,6 @@ public class ElevatorInitializer {
 
         List<Station> stations = stationRepository.findAll();
         for (Station station : stations) {
-            if (station.getSubwayLine().getId().equals("2")) {
-                continue;
-            }
-
             mappingStationAndElevator(elevatorLocationMap, station);
         }
     }
@@ -67,11 +65,21 @@ public class ElevatorInitializer {
         }
 
         for (ElevatorLocation elevatorLocation : elevatorLocationList) {
+            Coordinate elevatorCoordinate = elevatorLocation.extractCoordinate();
+            Optional<Elevator> elevatorOptional = elevatorRepository.findByCoordinate(elevatorCoordinate);
+            if (elevatorOptional.isPresent()) {
+                Elevator elevator = elevatorOptional.get();
+                if (!station.getElevators().contains(elevator)) {
+                    station.addElevator(elevator);
+                }
+                continue;
+            }
+
             if (validDistance(station, elevatorLocation)) {
                 Elevator elevator = Elevator.builder()
-                        .coordinate(elevatorLocation.extractCoordinate())
+                        .coordinate(elevatorCoordinate)
                         .build();
-                elevator.updateStation(station);
+                station.addElevator(elevator);
                 elevatorRepository.save(elevator);
             }
         }
@@ -86,10 +94,6 @@ public class ElevatorInitializer {
     public void initializeElevatorNearestExit() {
         List<Station> stations = stationRepository.findAll();
         for (Station station : stations) {
-            if (station.getSubwayLine().getId().equals("2")) {
-                continue;
-            }
-
             setNearestExit(station);
         }
     }
@@ -99,6 +103,10 @@ public class ElevatorInitializer {
         List<Exit> exits = station.getExits();
 
         for (Elevator elevator : elevators) {
+            if (elevator.getNearestExit() != null) {
+                continue;
+            }
+
             double minDistance = 1_000_000;
             String nearestExit = getNearestExit(exits, elevator, minDistance);
 
@@ -123,10 +131,6 @@ public class ElevatorInitializer {
         List<Station> stations = stationRepository.findAll();
         Map<String, List<ElevatorStatusInfo>> statusInfoMap = seoulOpenAPIManager.getElevatorStatus();
         for (Station station : stations) {
-            if (station.getSubwayLine().getId().equals("2")) {
-                continue;
-            }
-
             mappingElevator(station, statusInfoMap);
         }
     }

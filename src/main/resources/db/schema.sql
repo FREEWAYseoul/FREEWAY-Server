@@ -25,8 +25,6 @@ CREATE TABLE IF NOT EXISTS exits
     exit_number VARCHAR(5)  NOT NULL,
     latitude    VARCHAR(20) NOT NULL,
     longitude   VARCHAR(20) NOT NULL,
-    station_id  VARCHAR(6)  NOT NULL,
-    FOREIGN KEY (station_id) REFERENCES station (station_id),
     UNIQUE (latitude, longitude)
 );
 
@@ -38,16 +36,23 @@ CREATE TABLE IF NOT EXISTS elevator
     elevator_status VARCHAR(10),
     description     VARCHAR(50),
     nearest_exit    VARCHAR(5),
-    station_id      VARCHAR(6)  NOT NULL,
-    FOREIGN KEY (station_id) REFERENCES station (station_id),
     UNIQUE (latitude, longitude)
 );
 
 CREATE TABLE IF NOT EXISTS station_exits
 (
     station_id VARCHAR(6) NOT NULL,
-    exit_id    INT NOT NULL,
+    exit_id    INT        NOT NULL,
     PRIMARY KEY (station_id, exit_id),
     FOREIGN KEY (station_id) REFERENCES station (station_id),
     FOREIGN KEY (exit_id) REFERENCES exits (exit_id)
+);
+
+CREATE TABLE IF NOT EXISTS station_elevator
+(
+    station_id  VARCHAR(6) NOT NULL,
+    elevator_id INT        NOT NULL,
+    PRIMARY KEY (station_id, elevator_id),
+    FOREIGN KEY (station_id) REFERENCES station (station_id),
+    FOREIGN KEY (elevator_id) REFERENCES elevator (elevator_id)
 );

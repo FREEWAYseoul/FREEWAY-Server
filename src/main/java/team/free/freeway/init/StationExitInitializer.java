@@ -27,10 +27,6 @@ public class StationExitInitializer {
     public void initializeStationExit() {
         List<Station> stations = stationRepository.findAll();
         for (Station station : stations) {
-            if (station.getSubwayLine().getId().equals("2")) {
-                continue;
-            }
-
             String stationName = station.getName();
             String lineName = station.getSubwayLine().getLineName();
             List<Location> exitLocationList = kakaoAPIManager.getExitLocationList(stationName, lineName);

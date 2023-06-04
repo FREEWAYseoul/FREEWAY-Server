@@ -42,10 +42,6 @@ public class StationInitializer {
         for (int i = 1; i <= lastRowNum; i++) {
             Row row = sheet.getRow(i);
             String lineName = row.getCell(LINE_NAME_INDEX).toString();
-            if (lineName.contains("2")) {
-                continue;
-            }
-
             String stationName = row.getCell(STATION_NAME_INDEX).toString();
             stationName = StationNameUtils.getPureStationName(stationName);
 
@@ -65,10 +61,6 @@ public class StationInitializer {
         List<Station> stations = stationRepository.findAll();
         List<StationContact> stationContactList = seoulOpenAPIManager.getStationContactList();
         for (Station station : stations) {
-            if (station.getSubwayLine().getId().equals("2")) {
-                continue;
-            }
-
             setStationContact(station, stationContactList);
         }
     }
