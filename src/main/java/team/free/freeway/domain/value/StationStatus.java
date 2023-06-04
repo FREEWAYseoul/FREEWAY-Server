@@ -1,4 +1,4 @@
-package team.free.freeway.mock;
+package team.free.freeway.domain.value;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;

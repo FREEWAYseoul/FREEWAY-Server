@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/free_way?characterEncoding=UTF-8&serverTimezone=UTC
+    username: jcw
+    password: 1234
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        highlight_sql: true
+        show_sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      schema-locations: classpath*:db/schema.sql
+      mode: always
+
+data:
+  seoul:
+    authentication_key: 4d514267796a63773738686d796454
+
+kakao:
+  key: 2a1ed1a7ee3e1896bb5643414d8e9180
+
+rail_portal:
+  disabled_toilet_key: $2a$10$KEWupCWUkxtS22HpOPghN.UL2GjRb88QcMYh8R9/OpkwFJBim8qpe
