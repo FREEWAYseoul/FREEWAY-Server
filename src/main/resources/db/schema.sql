@@ -10,12 +10,12 @@ CREATE TABLE IF NOT EXISTS station
     station_name          VARCHAR(10) NOT NULL,
     latitude              VARCHAR(20) NOT NULL,
     longitude             VARCHAR(20) NOT NULL,
+    line_id               VARCHAR(3)  NOT NULL,
     station_status        VARCHAR(20),
     operating_institution VARCHAR(10) NOT NULL,
     station_address       VARCHAR(50) NOT NULL,
     station_contact       VARCHAR(15),
     station_image_url     VARCHAR(100),
-    line_id               VARCHAR(3)  NOT NULL,
     UNIQUE (latitude, longitude),
     FOREIGN KEY (line_id) REFERENCES subway_line (line_id)
 );
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS elevator
     elevator_id     INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
     latitude        VARCHAR(20) NOT NULL,
     longitude       VARCHAR(20) NOT NULL,
-    elevator_status VARCHAR(10),
+    elevator_status VARCHAR(20),
     description     VARCHAR(50),
     nearest_exit    VARCHAR(5),
     UNIQUE (latitude, longitude)

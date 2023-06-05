@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.util.List;
@@ -76,6 +77,9 @@ public class Station {
             joinColumns = @JoinColumn(name = "station_id"),
             inverseJoinColumns = @JoinColumn(name = "elevator_id"))
     private List<Elevator> elevators;
+
+    @OneToOne(mappedBy = "station")
+    private Facilities facilities;
 
     @Builder
     protected Station(String id, String name, Coordinate coordinate, String operatingInstitution, String address) {

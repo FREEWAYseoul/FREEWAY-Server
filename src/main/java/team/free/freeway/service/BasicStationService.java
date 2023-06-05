@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import team.free.freeway.controller.dto.StationDetailsResponseDto;
 import team.free.freeway.controller.dto.StationListResponseDto;
 import team.free.freeway.domain.Station;
+import team.free.freeway.exception.StationNotFoundException;
 import team.free.freeway.repository.StationRepository;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class BasicStationService implements StationService {
 
     @Override
     public StationDetailsResponseDto getStationDetails(String stationId) {
-        return null;
+        Station station = stationRepository.findById(stationId).orElseThrow(StationNotFoundException::new);
+        return StationDetailsResponseDto.from(station);
     }
 }
