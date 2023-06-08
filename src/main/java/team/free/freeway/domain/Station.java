@@ -141,4 +141,18 @@ public class Station {
     public void updateForeignId(String foreignId) {
         this.foreignId = foreignId;
     }
+
+    public void linkNextStation(Station nextStation) {
+        this.nextStation = nextStation;
+        nextStation.linkPreviousStation(this);
+    }
+
+    public void linkBranchStation(Station branchStation) {
+        this.branchStation = branchStation;
+        branchStation.linkPreviousStation(this);
+    }
+
+    public void linkPreviousStation(Station previousStation) {
+        this.previousStation = previousStation;
+    }
 }

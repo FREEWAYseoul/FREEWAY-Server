@@ -5,13 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StationExitInitializerTest {
+class InitializationTest {
 
     @Autowired
     StationInitializer stationInitializer;
+    @Autowired
+    StationExitInitializer stationExitInitializer;
+    @Autowired
+    FacilitiesInitializer facilitiesInitializer;
+    @Autowired
+    ElevatorInitializer elevatorInitializer;
 
     @Test
     void test() throws Exception {
-        stationInitializer.initializeStationForeignId();
+        stationInitializer.initializeAdjacentStations();
     }
 }
