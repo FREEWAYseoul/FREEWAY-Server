@@ -1,14 +1,17 @@
 package team.free.freeway.init;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Station;
 import team.free.freeway.domain.SubwayLine;
+import team.free.freeway.init.constant.NextStationExcelIndex;
 import team.free.freeway.init.dto.value.Location;
 import team.free.freeway.init.dto.value.StationContact;
+import team.free.freeway.init.dto.value.StationForeign;
 import team.free.freeway.init.dto.value.StationImage;
 import team.free.freeway.init.util.ExcelReader;
 import team.free.freeway.init.util.KakaoAPIManager;
@@ -29,7 +32,8 @@ import static team.free.freeway.init.constant.StationExcelIndex.STATION_NAME_IND
 @Component
 public class StationInitializer {
 
-    private static final String STATION_CODE_INFO_PATH = "/Users/jcw/Develop/Free-Way/src/main/resources/station_info.xlsx";
+    private static final String STATION_CODE_INFO_PATH = "/Users/jcw/Develop/Free-Way/src/main/resources/station_code.xlsx";
+    private static final String NEXT_STATION_INFO_PATH = "/Users/jcw/Develop/Free-Way/src/main/resources/next_station.xlsx";
 
     private final KakaoAPIManager kakaoAPIManager;
     private final StationRepository stationRepository;
@@ -106,5 +110,75 @@ public class StationInitializer {
     private boolean validImage(Station station, StationImage stationImage, String pureStationName) {
         return pureStationName.equals(station.getName())
                 && stationImage.getLineId().equals(station.getSubwayLine().getId());
+    }
+
+    public void initializeStationForeignId() {
+        List<Station> stations = stationRepository.findAll();
+        List<StationForeign> stationForeignList = seoulOpenAPIManager.getStationForeignList();
+        for (Station station : stations) {
+            setStationForeignId(stationForeignList, station);
+        }
+    }
+
+    private void setStationForeignId(List<StationForeign> stationForeignList, Station station) {
+        for (StationForeign stationForeign : stationForeignList) {
+            if (validStationForeign(station, stationForeign)) {
+                station.updateForeignId(stationForeign.getStationForeignId());
+            }
+        }
+    }
+
+    private boolean validStationForeign(Station station, StationForeign stationForeign) {
+        if (station.getSubwayLine().getLineName().equals("경의중앙선")) {
+            if (station.getName().equals(stationForeign.getStationName())
+                    && stationForeign.getLineName().equals("경의선")) {
+                return true;
+            }
+        }
+        return station.getName().equals(stationForeign.getStationName())
+                && stationForeign.getLineName().contains(station.getSubwayLine().getLineName());
+    }
+
+    public void initializeAdjacentStations() throws IOException {
+        Sheet sheet = ExcelReader.readSheet(NEXT_STATION_INFO_PATH);
+        int lastRowNum = sheet.getLastRowNum();
+
+        for (int i = 1; i <= lastRowNum; i++) {
+            Row row = sheet.getRow(i);
+            String stationName =
+                    StationNameUtils.getPureStationName(row.getCell(NextStationExcelIndex.STATION_NAME_INDEX).toString());
+            String lineId = row.getCell(NextStationExcelIndex.LINE_ID_INDEX).toString();
+            if (lineId.contains(".")) {
+                lineId = lineId.split("\\.")[0];
+            }
+
+            SubwayLine subwayLine = lineRepository.findById(lineId).orElse(null);
+            if (subwayLine == null) {
+                continue;
+            }
+
+            stationRepository.findByNameAndSubwayLine(stationName, subwayLine)
+                    .ifPresent(station -> setNextAndBranchStation(row, station, subwayLine));
+        }
+    }
+
+    private void setNextAndBranchStation(Row row, Station station, SubwayLine subwayLine) {
+        Cell nextStationNameCell = row.getCell(NextStationExcelIndex.NEXT_STATION_NAME_INDEX);
+        if (nextStationNameCell == null) {
+            return;
+        }
+
+        String nextStationName =
+                StationNameUtils.getPureStationName(nextStationNameCell.toString());
+        stationRepository.findByNameAndSubwayLine(nextStationName, subwayLine).ifPresent(station::linkNextStation);
+
+        Cell branchStationNameCell = row.getCell(NextStationExcelIndex.BRANCH_STATION_NAME_INDEX);
+        if (branchStationNameCell == null) {
+            return;
+        }
+
+        String branchStationName = StationNameUtils.getPureStationName(branchStationNameCell.toString());
+        stationRepository.findByNameAndSubwayLine(branchStationName, subwayLine)
+                .ifPresent(station::linkBranchStation);
     }
 }

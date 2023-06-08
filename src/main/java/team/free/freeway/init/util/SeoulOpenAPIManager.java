@@ -7,12 +7,14 @@ import team.free.freeway.init.dto.ElevatorLocationDto;
 import team.free.freeway.init.dto.ElevatorStatusDto;
 import team.free.freeway.init.dto.StationContactDto;
 import team.free.freeway.init.dto.StationFacilitiesDto;
+import team.free.freeway.init.dto.StationForeignDto;
 import team.free.freeway.init.dto.StationImageDto;
 import team.free.freeway.init.dto.value.ElevatorLocation;
 import team.free.freeway.init.dto.value.ElevatorStatusInfo;
 import team.free.freeway.init.dto.value.StationContact;
 import team.free.freeway.init.dto.value.StationFacilities;
 import team.free.freeway.init.dto.value.StationFacilitiesRow;
+import team.free.freeway.init.dto.value.StationForeign;
 import team.free.freeway.init.dto.value.StationImage;
 
 import java.util.ArrayList;
@@ -29,10 +31,11 @@ public class SeoulOpenAPIManager {
     private static final String STATION_CONTACT_REQUEST_ENDPOINT = "/StationAdresTelno";
     private static final String STATION_FACILITIES_REQUEST_ENDPOINT = "/TbSeoulmetroStConve";
     private static final String STATION_IMAGE_REQUEST_ENDPOINT = "/SmrtEmergerncyGuideImg";
+    private static final String STATION_FOREIGN_ID_REQUEST_ENDPOINT = "/SearchInfoBySubwayNameService";
     private static final String RESPONSE_TYPE = "/json";
-    private static final String ELEVATOR_STATUS_REQUEST_SIZE1 = "/1/1000";
-    private static final String ELEVATOR_STATUS_REQUEST_SIZE2 = "/1001/2000";
-    private static final String ELEVATOR_STATUS_REQUEST_SIZE3 = "/2001/3000";
+    private static final String REQUEST_SIZE1 = "/1/1000";
+    private static final String REQUEST_SIZE2 = "/1001/2000";
+    private static final String REQUEST_SIZE3 = "/2001/3000";
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -40,8 +43,8 @@ public class SeoulOpenAPIManager {
     private String authenticationKey;
 
     public List<ElevatorLocation> getElevatorLocationInfo() {
-        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE + ELEVATOR_LOCATION_REQUEST_ENDPOINT +
-                ELEVATOR_STATUS_REQUEST_SIZE1;
+        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE
+                + ELEVATOR_LOCATION_REQUEST_ENDPOINT + REQUEST_SIZE1;
 
         return restTemplate.getForObject(url, ElevatorLocationDto.class)
                 .getElevatorLocationRow().getElevatorLocationList();
@@ -49,18 +52,16 @@ public class SeoulOpenAPIManager {
 
     public Map<String, List<ElevatorStatusInfo>> getElevatorStatus() {
         Map<String, List<ElevatorStatusInfo>> elevatorStatusInfoMap = new HashMap<>();
-        List<ElevatorStatusInfo> elevatorStatusInfoList = getElevatorStatusObject(
-                ELEVATOR_STATUS_REQUEST_ENDPOINT + ELEVATOR_STATUS_REQUEST_SIZE1)
+        List<ElevatorStatusInfo> elevatorStatusInfoList =
+                getElevatorStatusObject(ELEVATOR_STATUS_REQUEST_ENDPOINT + REQUEST_SIZE1)
+                        .getElevatorStatusRow().getElevatorStatusInfoList();
+        setElevatorStatusList(elevatorStatusInfoList, elevatorStatusInfoMap);
+
+        elevatorStatusInfoList = getElevatorStatusObject(ELEVATOR_STATUS_REQUEST_ENDPOINT + REQUEST_SIZE2)
                 .getElevatorStatusRow().getElevatorStatusInfoList();
         setElevatorStatusList(elevatorStatusInfoList, elevatorStatusInfoMap);
 
-        elevatorStatusInfoList = getElevatorStatusObject(
-                ELEVATOR_STATUS_REQUEST_ENDPOINT + ELEVATOR_STATUS_REQUEST_SIZE2)
-                .getElevatorStatusRow().getElevatorStatusInfoList();
-        setElevatorStatusList(elevatorStatusInfoList, elevatorStatusInfoMap);
-
-        elevatorStatusInfoList = getElevatorStatusObject(
-                ELEVATOR_STATUS_REQUEST_ENDPOINT + ELEVATOR_STATUS_REQUEST_SIZE3)
+        elevatorStatusInfoList = getElevatorStatusObject(ELEVATOR_STATUS_REQUEST_ENDPOINT + REQUEST_SIZE3)
                 .getElevatorStatusRow().getElevatorStatusInfoList();
         setElevatorStatusList(elevatorStatusInfoList, elevatorStatusInfoMap);
 
@@ -72,8 +73,9 @@ public class SeoulOpenAPIManager {
         return restTemplate.getForObject(url, ElevatorStatusDto.class);
     }
 
-    private void setElevatorStatusList(List<ElevatorStatusInfo> elevatorStatusInfoList,
-                                       Map<String, List<ElevatorStatusInfo>> elevatorStatusInfoMap) {
+    private void setElevatorStatusList(
+            List<ElevatorStatusInfo> elevatorStatusInfoList, Map<String, List<ElevatorStatusInfo>> elevatorStatusInfoMap
+    ) {
         for (ElevatorStatusInfo elevatorStatusInfo : elevatorStatusInfoList) {
             if (elevatorStatusInfo.getCategory().equals("EV")) {
                 putOutsideElevatorStatusInfoToMap(elevatorStatusInfo, elevatorStatusInfoMap);
@@ -81,8 +83,9 @@ public class SeoulOpenAPIManager {
         }
     }
 
-    private void putOutsideElevatorStatusInfoToMap(ElevatorStatusInfo elevatorStatusInfo,
-                                                   Map<String, List<ElevatorStatusInfo>> elevatorStatusInfoMap) {
+    private void putOutsideElevatorStatusInfoToMap(
+            ElevatorStatusInfo elevatorStatusInfo, Map<String, List<ElevatorStatusInfo>> elevatorStatusInfoMap
+    ) {
         if (elevatorStatusInfo.getElevatorName().contains("외부") || elevatorStatusInfo.getLocation().contains("출")
                 || elevatorStatusInfo.getLocation().contains("외부")) {
             String stationName = StationNameUtils.getPureStationName(elevatorStatusInfo.getStationName());
@@ -94,17 +97,16 @@ public class SeoulOpenAPIManager {
     }
 
     public List<StationContact> getStationContactList() {
-        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE + STATION_CONTACT_REQUEST_ENDPOINT +
-                ELEVATOR_STATUS_REQUEST_SIZE1;
+        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE
+                + STATION_CONTACT_REQUEST_ENDPOINT + REQUEST_SIZE1;
 
         return restTemplate.getForObject(url, StationContactDto.class)
                 .getStationContactRow().getStationContactList();
     }
 
     public List<StationFacilities> getStationFacilitiesList(String stationName) {
-        System.out.println("stationName = " + stationName);
-        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE + STATION_FACILITIES_REQUEST_ENDPOINT +
-                ELEVATOR_STATUS_REQUEST_SIZE1 + "/" + stationName;
+        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE
+                + STATION_FACILITIES_REQUEST_ENDPOINT + REQUEST_SIZE1 + "/" + stationName;
 
         StationFacilitiesRow stationFacilitiesRow =
                 restTemplate.getForObject(url, StationFacilitiesDto.class).getStationFacilitiesRow();
@@ -116,10 +118,18 @@ public class SeoulOpenAPIManager {
     }
 
     public List<StationImage> getStationImage() {
-        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE + STATION_IMAGE_REQUEST_ENDPOINT +
-                ELEVATOR_STATUS_REQUEST_SIZE1;
+        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE
+                + STATION_IMAGE_REQUEST_ENDPOINT + REQUEST_SIZE1;
 
         return restTemplate.getForObject(url, StationImageDto.class)
                 .getStationImageRow().getStationImageList();
+    }
+
+    public List<StationForeign> getStationForeignList() {
+        String url = SEOUL_API_HOST + authenticationKey + RESPONSE_TYPE
+                + STATION_FOREIGN_ID_REQUEST_ENDPOINT + REQUEST_SIZE1;
+
+        return restTemplate.getForObject(url, StationForeignDto.class)
+                .getStationForeignRow().getStationForeignList();
     }
 }

@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.util.List;
@@ -61,6 +62,9 @@ public class Station {
     @Column(name = "station_image_url")
     private String imageUrl;
 
+    @Column(name = "foreign_id")
+    private String foreignId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "line_id")
     private SubwayLine subwayLine;
@@ -76,6 +80,21 @@ public class Station {
             joinColumns = @JoinColumn(name = "station_id"),
             inverseJoinColumns = @JoinColumn(name = "elevator_id"))
     private List<Elevator> elevators;
+
+    @OneToOne(mappedBy = "station")
+    private Facilities facilities;
+
+    @OneToOne
+    @JoinColumn(name = "next_station")
+    private Station nextStation;
+
+    @OneToOne
+    @JoinColumn(name = "previous_station")
+    private Station previousStation;
+
+    @OneToOne
+    @JoinColumn(name = "branch_station")
+    private Station branchStation;
 
     @Builder
     protected Station(String id, String name, Coordinate coordinate, String operatingInstitution, String address) {
@@ -117,5 +136,23 @@ public class Station {
 
     public void updateImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void updateForeignId(String foreignId) {
+        this.foreignId = foreignId;
+    }
+
+    public void linkNextStation(Station nextStation) {
+        this.nextStation = nextStation;
+        nextStation.linkPreviousStation(this);
+    }
+
+    public void linkBranchStation(Station branchStation) {
+        this.branchStation = branchStation;
+        branchStation.linkPreviousStation(this);
+    }
+
+    public void linkPreviousStation(Station previousStation) {
+        this.previousStation = previousStation;
     }
 }
