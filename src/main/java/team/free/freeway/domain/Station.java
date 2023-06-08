@@ -81,7 +81,7 @@ public class Station {
             inverseJoinColumns = @JoinColumn(name = "elevator_id"))
     private List<Elevator> elevators;
 
-    @OneToOne(mappedBy = "station")
+    @OneToOne(mappedBy = "station", fetch = FetchType.LAZY)
     private Facilities facilities;
 
     @OneToOne
@@ -154,5 +154,9 @@ public class Station {
 
     public void linkPreviousStation(Station previousStation) {
         this.previousStation = previousStation;
+    }
+
+    public void updateStatus(StationStatus stationStatus) {
+        this.status = stationStatus;
     }
 }

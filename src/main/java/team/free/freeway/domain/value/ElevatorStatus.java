@@ -10,7 +10,7 @@ public enum ElevatorStatus {
     AVAILABLE("사용 가능"),
     REPAIR("보수 중"),
     CONSTRUCTION("공사 중"),
-    UNKNOWN("알 수 없음");
+    UNKNOWN("확인 불가");
 
     private final String statusName;
 

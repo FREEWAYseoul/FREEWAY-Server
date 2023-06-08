@@ -92,7 +92,7 @@ public class ElevatorInitializer {
     }
 
     public void initializeElevatorNearestExit() {
-        List<Station> stations = stationRepository.findAll();
+        List<Station> stations = stationRepository.findAllWithElevators();
         for (Station station : stations) {
             setNearestExit(station);
         }
@@ -128,7 +128,7 @@ public class ElevatorInitializer {
     }
 
     public void initializeElevatorStatusMapping() {
-        List<Station> stations = stationRepository.findAll();
+        List<Station> stations = stationRepository.findAllWithElevators();
         Map<String, List<ElevatorStatusInfo>> statusInfoMap = seoulOpenAPIManager.getElevatorStatus();
         for (Station station : stations) {
             mappingElevator(station, statusInfoMap);
