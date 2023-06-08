@@ -62,6 +62,9 @@ public class Station {
     @Column(name = "station_image_url")
     private String imageUrl;
 
+    @Column(name = "foreign_id")
+    private String foreignId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "line_id")
     private SubwayLine subwayLine;
@@ -80,6 +83,18 @@ public class Station {
 
     @OneToOne(mappedBy = "station")
     private Facilities facilities;
+
+    @OneToOne
+    @JoinColumn(name = "next_station")
+    private Station nextStation;
+
+    @OneToOne
+    @JoinColumn(name = "previous_station")
+    private Station previousStation;
+
+    @OneToOne
+    @JoinColumn(name = "branch_station")
+    private Station branchStation;
 
     @Builder
     protected Station(String id, String name, Coordinate coordinate, String operatingInstitution, String address) {
@@ -121,5 +136,9 @@ public class Station {
 
     public void updateImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void updateForeignId(String foreignId) {
+        this.foreignId = foreignId;
     }
 }
