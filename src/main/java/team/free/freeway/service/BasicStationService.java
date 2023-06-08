@@ -42,6 +42,17 @@ public class BasicStationService implements StationService {
     @Override
     public StationDetailsResponseDto getStationDetails(String stationId) {
         Station station = stationRepository.findById(stationId).orElseThrow(StationNotFoundException::new);
-        return StationDetailsResponseDto.from(station);
+        StationDetailsResponseDto stationDetailsResponseDto = StationDetailsResponseDto.from(station);
+
+        List<Station> transferStations = stationRepository.findByName(station.getName());
+        for (Station transferStation : transferStations) {
+            if (station == transferStation) {
+                continue;
+            }
+
+            stationDetailsResponseDto.addTransferStation(transferStation);
+        }
+
+        return stationDetailsResponseDto;
     }
 }

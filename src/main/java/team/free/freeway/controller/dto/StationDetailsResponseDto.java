@@ -24,16 +24,19 @@ public class StationDetailsResponseDto {
     private String stationStatus;
     private String stationContact;
     private String stationImageUrl;
-    private String nextStation;
-    private String previousStation;
+    private AdjacentStationDto nextStation;
+    private AdjacentStationDto previousStation;
+    private AdjacentStationDto branchStation;
     private FacilitiesDto facilities;
+    private List<TransferStationDto> transferStations = new ArrayList<>();
     private List<ElevatorListResponseDto> elevators;
 
     @Builder
     public StationDetailsResponseDto(
             String stationId, String stationName, String lineId, String lineName, Coordinate stationCoordinate,
-            String stationStatus, String stationContact, String stationImageUrl, String nextStation,
-            String previousStation, FacilitiesDto facilities, List<ElevatorListResponseDto> elevators
+            String stationStatus, String stationContact, String stationImageUrl, AdjacentStationDto nextStation,
+            AdjacentStationDto previousStation, AdjacentStationDto branchStation, FacilitiesDto facilities,
+            List<ElevatorListResponseDto> elevators
     ) {
         this.stationId = stationId;
         this.stationName = stationName;
@@ -45,6 +48,7 @@ public class StationDetailsResponseDto {
         this.stationImageUrl = stationImageUrl;
         this.nextStation = nextStation;
         this.previousStation = previousStation;
+        this.branchStation = branchStation;
         this.facilities = facilities;
         this.elevators = elevators;
     }
@@ -57,7 +61,15 @@ public class StationDetailsResponseDto {
             elevatorList.add(elevatorListResponseDto);
         }
 
-        FacilitiesDto facilitiesDto = FacilitiesDto.from(station.getFacilities());
+        Facilities facilities = station.getFacilities();
+        FacilitiesDto facilitiesDto = null;
+        if (facilities != null) {
+            facilitiesDto = FacilitiesDto.from(facilities);
+        }
+
+        AdjacentStationDto nextStation = AdjacentStationDto.from(station.getNextStation());
+        AdjacentStationDto previousStation = AdjacentStationDto.from(station.getPreviousStation());
+        AdjacentStationDto branchStation = AdjacentStationDto.from(station.getBranchStation());
 
         return StationDetailsResponseDto.builder()
                 .stationId(station.getId())
@@ -68,9 +80,16 @@ public class StationDetailsResponseDto {
                 .stationStatus(station.getStatus().getStatusName())
                 .stationContact(station.getContact())
                 .stationImageUrl(station.getImageUrl())
+                .nextStation(nextStation)
+                .previousStation(previousStation)
+                .branchStation(branchStation)
                 .facilities(facilitiesDto)
                 .elevators(elevatorList)
                 .build();
+    }
+
+    public void addTransferStation(Station transferStation) {
+        this.transferStations.add(TransferStationDto.from(transferStation));
     }
 
     @Getter
@@ -134,6 +153,52 @@ public class StationDetailsResponseDto {
                     .currencyExchangeKiosk(facilities.getCurrencyExchangeKiosk())
                     .trainTicketOffice(facilities.getTrainTicketOffice())
                     .feedingRoom(facilities.getFeedingRoom())
+                    .build();
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    static class AdjacentStationDto {
+
+        private String stationId;
+        private String stationName;
+
+        @Builder
+        public AdjacentStationDto(String stationId, String stationName) {
+            this.stationId = stationId;
+            this.stationName = stationName;
+        }
+
+        public static AdjacentStationDto from(Station adjacentStation) {
+            if (adjacentStation == null) {
+                return null;
+            }
+
+            return AdjacentStationDto.builder()
+                    .stationId(adjacentStation.getId())
+                    .stationName(adjacentStation.getName())
+                    .build();
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    static class TransferStationDto {
+
+        private String stationId;
+        private String lineId;
+
+        @Builder
+        public TransferStationDto(String stationId, String lineId) {
+            this.stationId = stationId;
+            this.lineId = lineId;
+        }
+
+        public static TransferStationDto from(Station transferStation) {
+            return TransferStationDto.builder()
+                    .stationId(transferStation.getId())
+                    .lineId(transferStation.getSubwayLine().getId())
                     .build();
         }
     }
