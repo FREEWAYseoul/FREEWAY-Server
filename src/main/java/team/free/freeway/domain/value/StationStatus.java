@@ -10,7 +10,7 @@ public enum StationStatus {
 
     AVAILABLE("모두 사용 가능"),
     SOME_AVAILABLE("일부 사용 가능"),
-    UNAVAILABLE("사용 불가능"),
+    UNAVAILABLE("모두 사용 불가능"),
     UNKNOWN("확인 불가");
 
     @JsonValue

@@ -99,12 +99,15 @@ public class StationDetailsResponseDto {
         private Long elevatorId;
         private Coordinate elevatorCoordinate;
         private String elevatorStatus;
+        private String exitNumber;
 
         @Builder
-        public ElevatorListResponseDto(Long elevatorId, Coordinate elevatorCoordinate, String elevatorStatus) {
+        public ElevatorListResponseDto(Long elevatorId, Coordinate elevatorCoordinate, String elevatorStatus,
+                                       String exitNumber) {
             this.elevatorId = elevatorId;
             this.elevatorCoordinate = elevatorCoordinate;
             this.elevatorStatus = elevatorStatus;
+            this.exitNumber = exitNumber;
         }
 
         public static ElevatorListResponseDto from(Elevator elevator) {
@@ -112,6 +115,7 @@ public class StationDetailsResponseDto {
                     .elevatorId(elevator.getId())
                     .elevatorCoordinate(elevator.getCoordinate())
                     .elevatorStatus(elevator.getStatus().getStatusName())
+                    .exitNumber(elevator.getNearestExit())
                     .build();
         }
     }
