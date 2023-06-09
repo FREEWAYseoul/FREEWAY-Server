@@ -66,10 +66,10 @@ public class KakaoAPIManager {
     }
 
     public List<Location> getExitLocationList(String stationName, String lineName) {
-        log.info("station = {}", stationName + " " + lineName);
+        log.info("station = {}", stationName + "역 " + lineName);
         List<Location> exits = new ArrayList<>();
         for (int exitNumber = 1; exitNumber <= 20; exitNumber++) {
-            String keyword = stationName + "역 " + lineName + " " + exitNumber + "번출구";
+            String keyword = stationName + "역 " + exitNumber + "번출구";
             Location location = getLocation(stationName, String.valueOf(exitNumber), keyword);
             if (location == null) {
                 continue;
@@ -107,11 +107,15 @@ public class KakaoAPIManager {
             return null;
         }
 
-        Location location = locations.get(0);
-        if (!isSimilarWithKeywordOfExit(location.getName(), stationName, exitFullNumber)) {
-            return null;
+        for (Location location : locations) {
+            if (!isSimilarWithKeywordOfExit(location.getName(), stationName, exitFullNumber)) {
+                continue;
+            }
+
+            return location;
         }
-        return location;
+
+        return null;
     }
 
     private URI getExitLocationRequestUri(String keyword) {
@@ -123,7 +127,7 @@ public class KakaoAPIManager {
     }
 
     private boolean isSimilarWithKeywordOfExit(String name, String stationName, String exitFullNumber) {
-        return name.startsWith(stationName + "역") && (name.endsWith(exitFullNumber + "번출구")
-                || name.endsWith(exitFullNumber + "번 출구"));
+        return name.startsWith(stationName + "역") && name.contains("선")
+                && ((name.endsWith(exitFullNumber + "번출구") || name.endsWith(exitFullNumber + "번 출구")));
     }
 }

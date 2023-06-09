@@ -23,9 +23,7 @@ import team.free.freeway.repository.SubwayLineRepository;
 import java.io.IOException;
 import java.util.List;
 
-import static team.free.freeway.init.constant.StationExcelIndex.LINE_ID_INDEX;
-import static team.free.freeway.init.constant.StationExcelIndex.LINE_NAME_INDEX;
-import static team.free.freeway.init.constant.StationExcelIndex.STATION_NAME_INDEX;
+import static team.free.freeway.init.constant.StationExcelIndex.*;
 
 @Transactional
 @RequiredArgsConstructor
@@ -51,6 +49,9 @@ public class StationInitializer {
             stationName = StationNameUtils.getPureStationName(stationName);
 
             Location location = kakaoAPIManager.getStationLocationInfo(stationName, lineName);
+            if (!location.getAddress().startsWith("서울")) {
+                continue;
+            }
 
             Station station = Station.of(stationName, row, location);
             String lineId = row.getCell(LINE_ID_INDEX).toString();

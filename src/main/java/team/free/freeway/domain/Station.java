@@ -9,20 +9,7 @@ import team.free.freeway.domain.value.Coordinate;
 import team.free.freeway.domain.value.StationStatus;
 import team.free.freeway.init.dto.value.Location;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import java.util.List;
 
 import static team.free.freeway.init.constant.StationExcelIndex.OPERATING_INSTITUTION_INDEX;
@@ -81,7 +68,8 @@ public class Station {
             inverseJoinColumns = @JoinColumn(name = "elevator_id"))
     private List<Elevator> elevators;
 
-    @OneToOne(mappedBy = "station", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "facilities_id")
     private Facilities facilities;
 
     @OneToOne
@@ -158,5 +146,9 @@ public class Station {
 
     public void updateStatus(StationStatus stationStatus) {
         this.status = stationStatus;
+    }
+
+    public void updateFacilities(Facilities facilities) {
+        this.facilities = facilities;
     }
 }

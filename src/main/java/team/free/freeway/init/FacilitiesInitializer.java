@@ -9,7 +9,6 @@ import team.free.freeway.init.dto.value.DisabledToilet;
 import team.free.freeway.init.dto.value.StationFacilities;
 import team.free.freeway.init.util.RailPortalAPIManager;
 import team.free.freeway.init.util.SeoulOpenAPIManager;
-import team.free.freeway.repository.FacilitiesRepository;
 import team.free.freeway.repository.StationRepository;
 
 import java.util.List;
@@ -22,40 +21,41 @@ public class FacilitiesInitializer {
     private final SeoulOpenAPIManager seoulOpenAPIManager;
     private final RailPortalAPIManager railPortalAPIManager;
     private final StationRepository stationRepository;
-    private final FacilitiesRepository facilitiesRepository;
 
     public void initializeStationFacilities() {
         List<Station> stations = stationRepository.findAll();
         for (Station station : stations) {
-            Facilities facilities = Facilities.defaultObject(station);
-            updateFacilities(facilities);
-
-            facilitiesRepository.save(facilities);
+            Facilities facilities = Facilities.defaultObject();
+            updateFacilities(facilities, station);
         }
     }
 
-    private void updateFacilities(Facilities facilities) {
+    private void updateFacilities(Facilities facilities, Station station) {
         List<StationFacilities> stationFacilitiesList =
-                seoulOpenAPIManager.getStationFacilitiesList(facilities.getStation().getName());
+                seoulOpenAPIManager.getStationFacilitiesList(station.getName());
         if (stationFacilitiesList == null) {
             return;
         }
 
-        updateFacilitiesInfo(stationFacilitiesList, facilities);
-        updateDisabledToiletInfo(facilities);
+        updateFacilitiesInfo(stationFacilitiesList, facilities, station);
+        updateDisabledToiletInfo(facilities, station);
+
+        station.updateFacilities(facilities);
     }
 
-    private static void updateFacilitiesInfo(List<StationFacilities> stationFacilitiesList, Facilities facilities) {
+    private static void updateFacilitiesInfo(
+            List<StationFacilities> stationFacilitiesList, Facilities facilities, Station station
+    ) {
         for (StationFacilities stationFacilities : stationFacilitiesList) {
-            if (stationFacilities.getStationId().contains(facilities.getStation().getId())) {
+            if (stationFacilities.getStationId().contains(station.getId())) {
                 facilities.updateInfo(stationFacilities);
                 return;
             }
         }
     }
 
-    private void updateDisabledToiletInfo(Facilities facilities) {
-        List<DisabledToilet> disabledToiletList = railPortalAPIManager.getDisabledToiletList(facilities.getStation());
+    private void updateDisabledToiletInfo(Facilities facilities, Station station) {
+        List<DisabledToilet> disabledToiletList = railPortalAPIManager.getDisabledToiletList(station);
         if (disabledToiletList != null && !disabledToiletList.isEmpty()) {
             facilities.updateDisabledToilet(true);
             return;

@@ -6,13 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.free.freeway.init.dto.value.StationFacilities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,12 +15,9 @@ import javax.persistence.Table;
 public class Facilities {
 
     @Id
-    private String id;
-
-    @MapsId
-    @OneToOne
-    @JoinColumn(name = "station_id")
-    private Station station;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "facilities_id")
+    private Long id;
 
     @Column(name = "elevator")
     private Boolean elevator;
@@ -53,11 +44,9 @@ public class Facilities {
     private Boolean feedingRoom;
 
     @Builder
-    public Facilities(String id, Station station, Boolean elevator, Boolean wheelchairLift, Boolean disabledToilet,
+    public Facilities(Boolean elevator, Boolean wheelchairLift, Boolean disabledToilet,
                       Boolean transitParkingLot, Boolean unmannedCivilApplicationIssuingMachine,
                       Boolean currencyExchangeKiosk, Boolean trainTicketOffice, Boolean feedingRoom) {
-        this.id = id;
-        this.station = station;
         this.elevator = elevator;
         this.wheelchairLift = wheelchairLift;
         this.disabledToilet = disabledToilet;
@@ -68,10 +57,8 @@ public class Facilities {
         this.feedingRoom = feedingRoom;
     }
 
-    public static Facilities defaultObject(Station station) {
-        return Facilities.builder()
-                .station(station)
-                .build();
+    public static Facilities defaultObject() {
+        return new Facilities();
     }
 
     public void updateInfo(StationFacilities stationFacilities) {
