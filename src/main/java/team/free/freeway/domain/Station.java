@@ -68,7 +68,7 @@ public class Station {
             inverseJoinColumns = @JoinColumn(name = "elevator_id"))
     private List<Elevator> elevators;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "facilities_id")
     private Facilities facilities;
 

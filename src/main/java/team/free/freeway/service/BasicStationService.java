@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class BasicStationService implements StationService {
@@ -66,6 +66,7 @@ public class BasicStationService implements StationService {
         return stationDetailsResponseDto;
     }
 
+    @Transactional
     @Override
     public void updateElevatorStatusAndStationStatus() {
         Map<String, List<ElevatorStatusInfo>> elevatorStatusMap = seoulOpenAPIManager.getElevatorStatus();
@@ -73,11 +74,19 @@ public class BasicStationService implements StationService {
         for (Station station : stations) {
             List<ElevatorStatusInfo> elevatorStatusList = elevatorStatusMap.get(station.getName());
             if (elevatorStatusList == null) {
-                station.updateStatus(StationStatus.UNKNOWN);
+                setUnknownStatus(station);
                 continue;
             }
 
             mappingAndUpdateStatus(station, elevatorStatusList);
+        }
+    }
+
+    private void setUnknownStatus(Station station) {
+        station.updateStatus(StationStatus.UNKNOWN);
+        List<Elevator> elevators = station.getElevators();
+        for (Elevator elevator : elevators) {
+            elevator.updateElevatorStatus(ElevatorStatus.UNKNOWN);
         }
     }
 
@@ -88,6 +97,11 @@ public class BasicStationService implements StationService {
         List<Elevator> elevators = station.getElevators();
         for (Elevator elevator : elevators) {
             if (elevator.getDescription() == null) {
+                elevator.updateElevatorStatus(ElevatorStatus.UNKNOWN);
+
+                int newNumber = elevatorNumberMap.get(ElevatorStatus.UNKNOWN) + 1;
+                elevatorNumberMap.put(elevator.getStatus(), newNumber);
+
                 continue;
             }
 
@@ -97,9 +111,9 @@ public class BasicStationService implements StationService {
 
             int newNumber = elevatorNumberMap.get(elevator.getStatus()) + 1;
             elevatorNumberMap.put(elevator.getStatus(), newNumber);
-
-            updateStationStatus(station, elevatorNumberMap);
         }
+
+        updateStationStatus(station, elevatorNumberMap);
     }
 
     private void initializeMap(Map<ElevatorStatus, Integer> elevatorNumberMap) {
@@ -109,7 +123,8 @@ public class BasicStationService implements StationService {
     }
 
     private void updateElevatorStatus(Elevator elevator, ElevatorStatusInfo elevatorStatus) {
-        if (elevator.getDescription().contains(elevatorStatus.getElevatorName())) {
+        if (elevator.getDescription().contains(elevatorStatus.getElevatorName())
+                && elevator.getDescription().contains(elevatorStatus.getStationName())) {
             elevator.updateElevatorStatus(ElevatorStatus.of(elevatorStatus.getStatus()));
         }
     }
