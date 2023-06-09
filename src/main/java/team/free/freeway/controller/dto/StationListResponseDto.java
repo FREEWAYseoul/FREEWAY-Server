@@ -8,6 +8,7 @@ import team.free.freeway.domain.Elevator;
 import team.free.freeway.domain.Station;
 import team.free.freeway.domain.value.Coordinate;
 import team.free.freeway.domain.value.ElevatorStatus;
+import team.free.freeway.domain.value.StationStatus;
 
 import java.util.List;
 
@@ -40,6 +41,10 @@ public class StationListResponseDto {
             if (elevator.getStatus() == ElevatorStatus.AVAILABLE) {
                 availableElevatorsNumber++;
             }
+        }
+
+        if (availableElevatorsNumber == 0 && station.getStatus() == StationStatus.UNKNOWN) {
+            availableElevatorsNumber = -1;
         }
 
         return StationListResponseDto.builder()
