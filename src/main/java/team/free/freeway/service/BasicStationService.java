@@ -35,7 +35,7 @@ public class BasicStationService implements StationService {
 
     @Override
     public List<StationListResponseDto> getAllStations() {
-        List<Station> stations = stationRepository.findAll();
+        List<Station> stations = stationRepository.findAllWithElevators();
         return createStationList(stations);
     }
 

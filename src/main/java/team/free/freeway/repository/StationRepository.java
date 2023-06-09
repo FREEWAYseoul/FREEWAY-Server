@@ -13,7 +13,7 @@ public interface StationRepository extends JpaRepository<Station, String> {
 
     List<Station> findByName(String stationName);
 
-    @Query("SELECT s FROM Station s WHERE s.name LIKE %:keyword% ORDER BY s.name")
+    @Query("SELECT DISTINCT s FROM Station s LEFT JOIN FETCH s.elevators WHERE s.name LIKE %:keyword% ORDER BY s.name")
     List<Station> searchByName(@Param("keyword") String keyword);
 
     Optional<Station> findByNameAndSubwayLine(String stationName, SubwayLine subwayLine);

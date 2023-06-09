@@ -68,19 +68,19 @@ public class Station {
             inverseJoinColumns = @JoinColumn(name = "elevator_id"))
     private List<Elevator> elevators;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "facilities_id")
     private Facilities facilities;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "next_station")
     private Station nextStation;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "previous_station")
     private Station previousStation;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_station")
     private Station branchStation;
 
