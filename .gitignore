@@ -38,3 +38,5 @@ out/
 
 /src/main/resources/application.yml
 /src/test/resources/application.yml
+
+.DS_Store
