@@ -32,6 +32,10 @@ public class StationExitInitializer {
             List<Location> exitLocationList = kakaoAPIManager.getExitLocationList(stationName, lineName);
 
             for (Location exitLocation : exitLocationList) {
+                if (invalidDistance(station, exitLocation)) {
+                    continue;
+                }
+
                 Coordinate exitCoordinate = exitLocation.extractCoordinate();
                 Optional<Exit> exitOptional = exitRepository.findByCoordinate(exitCoordinate);
                 if (exitOptional.isPresent()) {
@@ -42,16 +46,14 @@ public class StationExitInitializer {
                     continue;
                 }
 
-                if (validDistance(station, exitLocation)) {
-                    Exit exit = Exit.from(exitLocation);
-                    station.addExit(exit);
-                    exitRepository.save(exit);
-                }
+                Exit exit = Exit.from(exitLocation);
+                station.addExit(exit);
+                exitRepository.save(exit);
             }
         }
     }
 
-    private boolean validDistance(Station station, Location exit) {
+    private boolean invalidDistance(Station station, Location exit) {
         double distance = GeographicalDistanceUtils
                 .calculateDistance(station.getCoordinate(), exit.extractCoordinate());
         return !(distance >= 500);

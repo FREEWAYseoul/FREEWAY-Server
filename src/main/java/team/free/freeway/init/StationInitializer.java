@@ -23,7 +23,9 @@ import team.free.freeway.repository.SubwayLineRepository;
 import java.io.IOException;
 import java.util.List;
 
-import static team.free.freeway.init.constant.StationExcelIndex.*;
+import static team.free.freeway.init.constant.StationExcelIndex.LINE_ID_INDEX;
+import static team.free.freeway.init.constant.StationExcelIndex.LINE_NAME_INDEX;
+import static team.free.freeway.init.constant.StationExcelIndex.STATION_NAME_INDEX;
 
 @Transactional
 @RequiredArgsConstructor
