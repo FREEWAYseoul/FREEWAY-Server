@@ -1,18 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mysql://${RDS_HOST}:${RDS_PORT}/${RDS_DB_NAME}?characterEncoding=UTF-8&serverTimezone=UTC
-    username: ${RDS_USERNAME}
-    password: ${RDS_PASSWORD}
+    url: jdbc:mysql://${rds.host}:${rds.port}/${rds.db.name}?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${rds.username}
+    password: ${rds.password}
 
 data:
   seoul:
-    authentication_key: ${SEOUL_KEY}
+    authentication_key: ${seoul.key}
 
 kakao:
-  key: ${KAKAO_KEY}
+  key: ${kakao.key}
 
 rail_portal:
-  disabled_toilet_key: ${RAIL_KEY}
+  disabled_toilet_key: ${rail.key}
 
 server:
   port: 5000
