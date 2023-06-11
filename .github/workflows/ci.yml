@@ -16,7 +16,7 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - run: touch ./src/main/resources/application.yml
-      - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yml
+      - run: echo "$APPLICATION" > ./src/main/resources/application.yml
       - run: cat ./src/main/resources/application.yml
 
       - name: Grant execute permission for gradlew
