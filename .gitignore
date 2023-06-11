@@ -37,3 +37,5 @@ out/
 .vscode/
 
 .DS_Store
+
+src/main/resources/application-dev.yml

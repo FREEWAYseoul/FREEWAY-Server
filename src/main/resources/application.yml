@@ -1,14 +1,3 @@
 spring:
-
-data:
-  seoul:
-    authentication_key: ${SEOUL_KEY}
-
-kakao:
-  key: ${KAKAO_KEY}
-
-rail_portal:
-  disabled_toilet_key: ${RAIL_KEY}
-
-server:
-  port: ${PORT}
+  profiles:
+    active: ${PROFILE}
