@@ -15,4 +15,4 @@ rail_portal:
   disabled_toilet_key: ${RAIL_KEY}
 
 server:
-  port: ${PORT}
+  port: 5000

@@ -31,16 +31,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-bootRun {
-	environment("RDS_HOST", System.getenv("RDS_HOST"))
-	environment("RDS_DB_NAME", System.getenv("RDS_DB_NAME"))
-	environment("RDS_USERNAME", System.getenv("RDS_USERNAME"))
-	environment("RDS_PASSWORD", System.getenv("RDS_PASSWORD"))
-	environment("SEOUL_KEY", System.getenv("SEOUL_KEY"))
-	environment("KAKAO_KEY", System.getenv("KAKAO_KEY"))
-	environment("RAIL_KEY", System.getenv("RAIL_KEY"))
-}
-
 tasks.named('test') {
 	useJUnitPlatform()
 }

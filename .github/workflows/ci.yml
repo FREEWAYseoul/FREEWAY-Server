@@ -21,3 +21,13 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew clean build
+        with:
+          environment-properties: |
+            RDS_HOST=${{ secrets.RDS_HOST }}
+            RDS_PORT=${{ secrets.RDS_PORT }}
+            RDS_DB_NAME=${{ secrets.RDS_DB_NAME }}
+            RDS_USERNAME=${{ secrets.RDS_USERNAME }}
+            RDS_PASSWORD=${{ secrets.RDS_PASSWORD }}
+            SEOUL_KEY=${{ secrets.SEOUL_KEY }}
+            KAKAO_KEY=${{ secrets.KAKAO_KEY }}
+            RAIL_KEY=${{ secrets.RAIL_KEY }}
