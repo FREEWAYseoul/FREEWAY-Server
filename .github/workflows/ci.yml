@@ -8,16 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      RDS_HOST=${{ secrets.RDS_HOST }}
-      RDS_PORT=${{ secrets.RDS_PORT }}
-      RDS_DB_NAME=${{ secrets.RDS_DB_NAME }}
-      RDS_USERNAME=${{ secrets.RDS_USERNAME }}
-      RDS_PASSWORD=${{ secrets.RDS_PASSWORD }}
-      SEOUL_KEY=${{ secrets.SEOUL_KEY }}
-      KAKAO_KEY=${{ secrets.KAKAO_KEY }}
-      RAIL_KEY=${{ secrets.RAIL_KEY }}
-
     steps:
       - uses: actions/checkout@v3
 
@@ -25,9 +15,12 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
+      - run: touch ./src/main/resources/application.yml
+      - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yml
+      - run: cat ./src/main/resources/application.yml
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build -Dspring.profiles.active=prod
+        run: ./gradlew clean build
