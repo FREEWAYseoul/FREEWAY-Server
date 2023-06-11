@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+
+data:
+  seoul:
+    authentication_key: test
+
+kakao:
+  key: test
+
+rail_portal:
+  disabled_toilet_key: test
