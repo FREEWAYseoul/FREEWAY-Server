@@ -13,4 +13,4 @@ public enum FreeWayError {
 
     private final LocalDateTime timeStamp;
     private final String message;
-    }
+}

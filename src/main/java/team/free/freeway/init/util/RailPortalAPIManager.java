@@ -25,7 +25,7 @@ public class RailPortalAPIManager {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${rail_portal.disabled_toilet_key}")
+    @Value("${rail.key}")
     private String serviceKey;
 
     public List<DisabledToilet> getDisabledToiletList(Station station) {
