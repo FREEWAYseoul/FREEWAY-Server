@@ -39,7 +39,7 @@ public class SeoulOpenAPIManager {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${data.seoul.authentication_key}")
+    @Value("${seoul.key}")
     private String authenticationKey;
 
     public List<ElevatorLocation> getElevatorLocationInfo() {

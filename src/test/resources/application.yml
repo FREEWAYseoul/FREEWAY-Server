@@ -3,12 +3,11 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
 
-data:
-  seoul:
-    authentication_key: test
+seoul:
+  key: test
 
 kakao:
   key: test
 
-rail_portal:
-  disabled_toilet_key: test
+rail:
+  key: test
