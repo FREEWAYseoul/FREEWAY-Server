@@ -10,10 +10,13 @@ import lombok.NoArgsConstructor;
 public class StationFacilities {
 
     @JsonAlias(value = "STATION_ID")
-    private String stationId;
+    private String stationCode;
 
     @JsonAlias(value = "STATION_NAME")
     private String stationName;
+
+    @JsonAlias(value = "LINE")
+    private String lineName;
 
     @JsonAlias(value = "EL")
     private String elevator;

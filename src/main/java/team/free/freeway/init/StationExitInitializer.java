@@ -56,6 +56,6 @@ public class StationExitInitializer {
     private boolean invalidDistance(Station station, Location exit) {
         double distance = GeographicalDistanceUtils
                 .calculateDistance(station.getCoordinate(), exit.extractCoordinate());
-        return !(distance >= 500);
+        return distance >= 500;
     }
 }

@@ -9,25 +9,11 @@ import team.free.freeway.domain.value.Coordinate;
 import team.free.freeway.domain.value.StationStatus;
 import team.free.freeway.init.dto.value.Location;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import java.util.List;
 
 import static team.free.freeway.init.constant.StationExcelIndex.OPERATING_INSTITUTION_INDEX;
-import static team.free.freeway.init.constant.StationExcelIndex.STATION_ID_INDEX;
+import static team.free.freeway.init.constant.StationExcelIndex.STATION_ID_CODE;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,8 +24,12 @@ import static team.free.freeway.init.constant.StationExcelIndex.STATION_ID_INDEX
 public class Station {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "station_id")
-    private String id;
+    private Long id;
+
+    @Column(name = "station_code")
+    private String stationCode;
 
     @Column(name = "station_name")
     private String name;
@@ -99,8 +89,8 @@ public class Station {
     private Station branchStation;
 
     @Builder
-    protected Station(String id, String name, Coordinate coordinate, String operatingInstitution, String address) {
-        this.id = id;
+    protected Station(String stationCode, String name, Coordinate coordinate, String operatingInstitution, String address) {
+        this.stationCode = stationCode;
         this.name = name;
         this.coordinate = coordinate;
         this.operatingInstitution = operatingInstitution;
@@ -108,10 +98,10 @@ public class Station {
     }
 
     public static Station of(String stationName, Row row, Location location) {
-        String stationId = row.getCell(STATION_ID_INDEX).toString();
+        String stationCode = row.getCell(STATION_ID_CODE).toString();
         String operatingInstitution = row.getCell(OPERATING_INSTITUTION_INDEX).toString();
         return Station.builder()
-                .id(stationId)
+                .stationCode(stationCode)
                 .name(stationName)
                 .coordinate(new Coordinate(location.getLatitude(), location.getLongitude()))
                 .operatingInstitution(operatingInstitution)
