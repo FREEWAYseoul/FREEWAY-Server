@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Station;
 import team.free.freeway.domain.SubwayLine;
+import team.free.freeway.exception.SubwayLineNotFound;
 import team.free.freeway.init.constant.NextStationExcelIndex;
 import team.free.freeway.init.dto.value.Location;
 import team.free.freeway.init.dto.value.StationContact;
@@ -23,9 +24,7 @@ import team.free.freeway.repository.SubwayLineRepository;
 import java.io.IOException;
 import java.util.List;
 
-import static team.free.freeway.init.constant.StationExcelIndex.LINE_ID_INDEX;
-import static team.free.freeway.init.constant.StationExcelIndex.LINE_NAME_INDEX;
-import static team.free.freeway.init.constant.StationExcelIndex.STATION_NAME_INDEX;
+import static team.free.freeway.init.constant.StationExcelIndex.*;
 
 @Transactional
 @RequiredArgsConstructor
@@ -58,7 +57,7 @@ public class StationInitializer {
             Station station = Station.of(stationName, row, location);
             String lineId = row.getCell(LINE_ID_INDEX).toString();
             SubwayLine subwayLine = lineRepository.findById(lineId)
-                    .orElseThrow();
+                    .orElseThrow(SubwayLineNotFound::new);
             station.updateSubwayLine(subwayLine);
 
             stationRepository.save(station);

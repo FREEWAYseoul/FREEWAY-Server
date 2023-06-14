@@ -47,11 +47,16 @@ public class FacilitiesInitializer {
             List<StationFacilities> stationFacilitiesList, Facilities facilities, Station station
     ) {
         for (StationFacilities stationFacilities : stationFacilitiesList) {
-            if (stationFacilities.getStationId().contains(station.getId())) {
+            if (isValidFacilities(station, stationFacilities)) {
                 facilities.updateInfo(stationFacilities);
                 return;
             }
         }
+    }
+
+    private static boolean isValidFacilities(Station station, StationFacilities stationFacilities) {
+        return stationFacilities.getStationCode().contains(station.getStationCode())
+                && stationFacilities.getLineName().contains(station.getSubwayLine().getLineName());
     }
 
     private void updateDisabledToiletInfo(Facilities facilities, Station station) {
