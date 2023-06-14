@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StationListResponseDto {
 
-    private String stationId;
+    private Long stationId;
     private String stationName;
     private String lineId;
     private Coordinate coordinate;
@@ -24,7 +24,7 @@ public class StationListResponseDto {
     private int availableElevatorsNumber;
 
     @Builder
-    public StationListResponseDto(String stationId, String stationName, String lineId, Coordinate coordinate,
+    public StationListResponseDto(Long stationId, String stationName, String lineId, Coordinate coordinate,
                                   String stationStatus, int availableElevatorsNumber) {
         this.stationId = stationId;
         this.stationName = stationName;

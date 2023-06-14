@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public enum FreeWayError {
 
-    STATION_NOT_FOUND(LocalDateTime.now(), "해당 역이 존재하지 않습니다.");
+    STATION_NOT_FOUND(LocalDateTime.now(), "해당 역이 존재하지 않습니다."),
+    LINE_NOT_FOUND(LocalDateTime.now(), "해당 노선이 존재하지 않습니다.");
 
     private final LocalDateTime timeStamp;
     private final String message;

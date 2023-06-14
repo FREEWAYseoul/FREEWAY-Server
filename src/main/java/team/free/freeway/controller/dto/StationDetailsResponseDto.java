@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StationDetailsResponseDto {
 
-    private String stationId;
+    private Long stationId;
     private String stationName;
     private String lineId;
     private String lineName;
@@ -33,7 +33,7 @@ public class StationDetailsResponseDto {
 
     @Builder
     public StationDetailsResponseDto(
-            String stationId, String stationName, String lineId, String lineName, Coordinate stationCoordinate,
+            Long stationId, String stationName, String lineId, String lineName, Coordinate stationCoordinate,
             String stationStatus, String stationContact, String stationImageUrl, AdjacentStationDto nextStation,
             AdjacentStationDto previousStation, AdjacentStationDto branchStation, FacilitiesDto facilities,
             List<ElevatorListResponseDto> elevators
@@ -165,11 +165,11 @@ public class StationDetailsResponseDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     static class AdjacentStationDto {
 
-        private String stationId;
+        private Long stationId;
         private String stationName;
 
         @Builder
-        public AdjacentStationDto(String stationId, String stationName) {
+        public AdjacentStationDto(Long stationId, String stationName) {
             this.stationId = stationId;
             this.stationName = stationName;
         }
@@ -190,11 +190,11 @@ public class StationDetailsResponseDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     static class TransferStationDto {
 
-        private String stationId;
+        private Long stationId;
         private String lineId;
 
         @Builder
-        public TransferStationDto(String stationId, String lineId) {
+        public TransferStationDto(Long stationId, String lineId) {
             this.stationId = stationId;
             this.lineId = lineId;
         }
