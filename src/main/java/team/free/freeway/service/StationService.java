@@ -11,7 +11,7 @@ public interface StationService {
 
     List<StationListResponseDto> getAllStations();
 
-    StationDetailsResponseDto getStationDetails(String stationId);
+    StationDetailsResponseDto getStationDetails(Long stationId);
 
     void updateElevatorStatusAndStationStatus();
 }

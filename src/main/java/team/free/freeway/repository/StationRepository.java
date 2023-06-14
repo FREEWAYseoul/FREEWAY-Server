@@ -9,7 +9,7 @@ import team.free.freeway.domain.SubwayLine;
 import java.util.List;
 import java.util.Optional;
 
-public interface StationRepository extends JpaRepository<Station, String> {
+public interface StationRepository extends JpaRepository<Station, Long> {
 
     List<Station> findByName(String stationName);
 

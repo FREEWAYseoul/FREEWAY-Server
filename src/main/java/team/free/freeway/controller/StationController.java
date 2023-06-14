@@ -33,7 +33,7 @@ public class StationController {
     }
 
     @GetMapping("/{stationId}")
-    public ResponseEntity<StationDetailsResponseDto> stationDetailsInfo(@PathVariable String stationId) {
+    public ResponseEntity<StationDetailsResponseDto> stationDetailsInfo(@PathVariable Long stationId) {
         StationDetailsResponseDto stationDetails = stationService.getStationDetails(stationId);
         return ResponseEntity.ok().body(stationDetails);
     }

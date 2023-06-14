@@ -50,7 +50,7 @@ public class BasicStationService implements StationService {
     }
 
     @Override
-    public StationDetailsResponseDto getStationDetails(String stationId) {
+    public StationDetailsResponseDto getStationDetails(Long stationId) {
         Station station = stationRepository.findById(stationId).orElseThrow(StationNotFoundException::new);
         StationDetailsResponseDto stationDetailsResponseDto = StationDetailsResponseDto.from(station);
 
