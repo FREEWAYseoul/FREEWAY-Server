@@ -80,3 +80,11 @@ CREATE TABLE IF NOT EXISTS station_elevator
     FOREIGN KEY (station_id) REFERENCES station (station_id) ON UPDATE CASCADE,
     FOREIGN KEY (elevator_id) REFERENCES elevator (elevator_id)
 );
+
+CREATE TABLE IF NOT EXISTS notification
+(
+    notification_id      INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    notification_summary VARCHAR(100)  NOT NULL,
+    notification_content VARCHAR(1024) NOT NULL,
+    notification_date    DATETIME      NOT NULL
+);

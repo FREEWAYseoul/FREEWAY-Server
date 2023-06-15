@@ -10,13 +10,13 @@ import team.free.freeway.domain.Station;
 import team.free.freeway.domain.SubwayLine;
 import team.free.freeway.exception.SubwayLineNotFound;
 import team.free.freeway.init.constant.NextStationExcelIndex;
-import team.free.freeway.init.dto.value.Location;
-import team.free.freeway.init.dto.value.StationContact;
-import team.free.freeway.init.dto.value.StationForeign;
-import team.free.freeway.init.dto.value.StationImage;
+import team.free.freeway.api.dto.value.Location;
+import team.free.freeway.api.dto.value.StationContact;
+import team.free.freeway.api.dto.value.StationForeign;
+import team.free.freeway.api.dto.value.StationImage;
 import team.free.freeway.init.util.ExcelReader;
-import team.free.freeway.init.util.KakaoAPIManager;
-import team.free.freeway.init.util.SeoulOpenAPIManager;
+import team.free.freeway.api.KakaoAPIManager;
+import team.free.freeway.api.SeoulOpenAPIManager;
 import team.free.freeway.init.util.StationNameUtils;
 import team.free.freeway.repository.StationRepository;
 import team.free.freeway.repository.SubwayLineRepository;
@@ -24,7 +24,9 @@ import team.free.freeway.repository.SubwayLineRepository;
 import java.io.IOException;
 import java.util.List;
 
-import static team.free.freeway.init.constant.StationExcelIndex.*;
+import static team.free.freeway.init.constant.StationExcelIndex.LINE_ID_INDEX;
+import static team.free.freeway.init.constant.StationExcelIndex.LINE_NAME_INDEX;
+import static team.free.freeway.init.constant.StationExcelIndex.STATION_NAME_INDEX;
 
 @Transactional
 @RequiredArgsConstructor

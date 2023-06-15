@@ -3,6 +3,7 @@ package team.free.freeway.scheduler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import team.free.freeway.annotation.Scheduler;
+import team.free.freeway.service.NotificationService;
 import team.free.freeway.service.StationService;
 
 @RequiredArgsConstructor
@@ -10,9 +11,15 @@ import team.free.freeway.service.StationService;
 public class UpdateScheduler {
 
     private final StationService stationService;
+    private final NotificationService notificationService;
 
     @Scheduled(cron = "0 0 * * * *")
-    public void periodicalUpdateStation() {
+    public void periodicUpdateStation() {
         stationService.updateElevatorStatusAndStationStatus();
+    }
+
+    @Scheduled(cron = "0 */5 * * * *")
+    public void periodicUpdateNotification() {
+        notificationService.updateSubwayNotification();
     }
 }
