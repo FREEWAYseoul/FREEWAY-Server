@@ -13,6 +13,7 @@ import team.free.freeway.domain.Notification;
 import team.free.freeway.exception.JsonParseFaileException;
 import team.free.freeway.repository.NotificationRepository;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +25,23 @@ import java.util.Map;
 @Service
 public class BasicNotificationService implements NotificationService {
 
-    public static final int BEFORE_DATE = 14;
+    private static final List<NotificationDto> notificationCache = new ArrayList<>();
+    private static final int BEFORE_DATE = 14;
 
     private final NotificationRepository notificationRepository;
     private final SeoulMetroTwitterCrawler crawler;
     private final OpenAIRequestManager openAIRequestManager;
+
+    @PostConstruct
+    private void init() {
+        List<Notification> recentNotifications = notificationRepository.findRecentNotifications(LocalDateTime.now().minusDays(14));
+        for (Notification recentNotification : recentNotifications) {
+            notificationCache.add(NotificationDto.builder()
+                    .notificationContent(recentNotification.getContent())
+                    .notificationDate(recentNotification.getDateTime())
+                    .build());
+        }
+    }
 
     @Transactional
     @Override
@@ -49,12 +62,21 @@ public class BasicNotificationService implements NotificationService {
 
             notification.updateSummary(notificationSummary);
             notificationRepository.save(notification);
+
+            notificationCache.add(NotificationDto.builder()
+                    .notificationContent(notification.getContent())
+                    .notificationDate(notification.getDateTime())
+                    .build());
         }
     }
 
     private boolean existsNotification(NotificationDto notificationDto) {
-        return notificationRepository.existsByContentAndDateTime(notificationDto.getNotificationContent(),
-                notificationDto.getNotificationDate());
+        for (NotificationDto recentNotification : notificationCache) {
+            if (recentNotification.equals(notificationDto)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

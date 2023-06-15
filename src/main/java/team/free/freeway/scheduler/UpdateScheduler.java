@@ -18,7 +18,7 @@ public class UpdateScheduler {
         stationService.updateElevatorStatusAndStationStatus();
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "30 */1 * * * *")
     public void periodicUpdateNotification() {
         notificationService.updateSubwayNotification();
     }

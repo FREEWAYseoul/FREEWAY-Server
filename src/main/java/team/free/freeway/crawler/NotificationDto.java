@@ -21,4 +21,15 @@ public class NotificationDto {
         this.notificationContent = notificationContent;
         this.notificationDate = notificationDate;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        NotificationDto notificationDto = (NotificationDto) object;
+        if (!this.notificationContent.equals(notificationDto.getNotificationContent())) {
+            return false;
+        }
+        return this.notificationDate.equals(notificationDto.getNotificationDate());
+    }
+
+
 }
