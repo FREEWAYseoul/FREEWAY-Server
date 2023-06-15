@@ -1,4 +1,4 @@
-package team.free.freeway.init.util;
+package team.free.freeway.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,8 +8,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import team.free.freeway.init.dto.LocationDto;
-import team.free.freeway.init.dto.value.Location;
+import team.free.freeway.api.dto.LocationDto;
+import team.free.freeway.api.dto.value.Location;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;

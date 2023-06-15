@@ -1,12 +1,12 @@
-package team.free.freeway.init.util;
+package team.free.freeway.api;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import team.free.freeway.domain.Station;
-import team.free.freeway.init.dto.DisabledToiletDto;
-import team.free.freeway.init.dto.value.DisabledToilet;
+import team.free.freeway.api.dto.DisabledToiletDto;
+import team.free.freeway.api.dto.value.DisabledToilet;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;

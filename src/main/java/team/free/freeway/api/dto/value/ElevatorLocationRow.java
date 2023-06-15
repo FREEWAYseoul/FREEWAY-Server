@@ -1,4 +1,4 @@
-package team.free.freeway.init.dto.value;
+package team.free.freeway.api.dto.value;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AccessLevel;
@@ -9,8 +9,10 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StationFacilitiesRow {
+public class ElevatorLocationRow {
 
     @JsonAlias(value = "row")
-    private List<StationFacilities> stationFacilities;
+    private List<ElevatorLocation> elevatorLocationList;
+
+
 }

@@ -1,17 +1,16 @@
-package team.free.freeway.init.dto;
+package team.free.freeway.api.dto.value;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import team.free.freeway.init.dto.value.DisabledToilet;
 
 import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DisabledToiletDto {
+public class StationForeignRow {
 
-    @JsonAlias(value = "body")
-    private List<DisabledToilet> disabledToiletList;
+    @JsonAlias(value = "row")
+    private List<StationForeign> stationForeignList;
 }

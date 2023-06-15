@@ -12,7 +12,7 @@ public class UpdateScheduler {
     private final StationService stationService;
 
     @Scheduled(cron = "0 0 * * * *")
-    public void periodicalUpdateStation() {
+    public void periodicUpdateStation() {
         stationService.updateElevatorStatusAndStationStatus();
     }
 }
