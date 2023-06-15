@@ -11,12 +11,3 @@ kakao:
 
 rail:
   key: test
-
-driver:
-  path: test
-
-target:
-  url: test
-
-openai:
-  key: test

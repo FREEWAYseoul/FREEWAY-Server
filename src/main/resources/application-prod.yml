@@ -13,14 +13,5 @@ kakao:
 rail:
   key: ${railapi.key}
 
-driver:
-  path: ${chromedriver.path}
-
-target:
-  url: ${crawling.url}
-
-openai:
-  key: ${openaiapi.key}
-
 server:
   port: 5000

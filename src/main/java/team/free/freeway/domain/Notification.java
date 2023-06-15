@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import team.free.freeway.crawler.NotificationDto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,16 +41,5 @@ public class Notification {
         this.summary = summary;
         this.content = content;
         this.dateTime = dateTime;
-    }
-
-    public static Notification from(NotificationDto notificationDto) {
-        return Notification.builder()
-                .content(notificationDto.getNotificationContent())
-                .dateTime(notificationDto.getNotificationDate())
-                .build();
-    }
-
-    public void updateSummary(String notificationSummary) {
-        this.summary = notificationSummary;
     }
 }
