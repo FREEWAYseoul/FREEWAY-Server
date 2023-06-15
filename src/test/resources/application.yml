@@ -11,3 +11,9 @@ kakao:
 
 rail:
   key: test
+
+driver:
+  path: src/main/resources/chromedriver
+
+target:
+  url: ignore
