@@ -1,4 +1,4 @@
-package team.free.freeway.init.util;
+package team.free.freeway.api;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,6 +16,7 @@ import team.free.freeway.init.dto.value.StationFacilities;
 import team.free.freeway.init.dto.value.StationFacilitiesRow;
 import team.free.freeway.init.dto.value.StationForeign;
 import team.free.freeway.init.dto.value.StationImage;
+import team.free.freeway.init.util.StationNameUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

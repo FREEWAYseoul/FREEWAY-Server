@@ -8,7 +8,7 @@ import team.free.freeway.domain.Station;
 import team.free.freeway.init.dto.value.DisabledToilet;
 import team.free.freeway.init.dto.value.StationFacilities;
 import team.free.freeway.init.util.RailPortalAPIManager;
-import team.free.freeway.init.util.SeoulOpenAPIManager;
+import team.free.freeway.api.SeoulOpenAPIManager;
 import team.free.freeway.repository.StationRepository;
 
 import java.util.List;

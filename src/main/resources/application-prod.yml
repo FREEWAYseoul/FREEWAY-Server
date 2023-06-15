@@ -19,5 +19,8 @@ driver:
 target:
   url: ${crawling.url}
 
+openai:
+  key: ${openaiapi.key}
+
 server:
   port: 5000

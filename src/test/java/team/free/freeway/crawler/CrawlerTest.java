@@ -16,7 +16,6 @@ class CrawlerTest {
     void test() throws Exception {
         List<NotificationDto> notifications = twitterCrawler.selenium();
         for (NotificationDto notification : notifications) {
-            System.out.println("result = " + notification);
         }
     }
 }

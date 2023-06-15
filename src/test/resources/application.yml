@@ -17,3 +17,6 @@ driver:
 
 target:
   url: ignore
+
+openai:
+  key: lololololol
