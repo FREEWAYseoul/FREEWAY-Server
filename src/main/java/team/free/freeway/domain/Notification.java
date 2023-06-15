@@ -50,4 +50,8 @@ public class Notification {
                 .dateTime(notificationDto.getNotificationDate())
                 .build();
     }
+
+    public void updateSummary(String notificationSummary) {
+        this.summary = notificationSummary;
+    }
 }

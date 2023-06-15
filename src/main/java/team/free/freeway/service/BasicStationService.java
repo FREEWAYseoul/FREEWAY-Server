@@ -10,7 +10,7 @@ import team.free.freeway.domain.Station;
 import team.free.freeway.domain.value.ElevatorStatus;
 import team.free.freeway.domain.value.StationStatus;
 import team.free.freeway.exception.StationNotFoundException;
-import team.free.freeway.init.dto.value.ElevatorStatusInfo;
+import team.free.freeway.api.dto.value.ElevatorStatusInfo;
 import team.free.freeway.api.SeoulOpenAPIManager;
 import team.free.freeway.repository.StationRepository;
 

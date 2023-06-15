@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import team.free.freeway.init.dto.value.StationFacilities;
+import team.free.freeway.api.dto.value.StationFacilities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

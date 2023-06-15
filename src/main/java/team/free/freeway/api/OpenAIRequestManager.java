@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import team.free.freeway.api.dto.MessageDto;
+import team.free.freeway.api.dto.OpenAIRequestDto;
+import team.free.freeway.api.dto.OpenAIResponseDto;
 import team.free.freeway.domain.Notification;
 
 import java.nio.charset.StandardCharsets;
@@ -38,12 +41,10 @@ public class OpenAIRequestManager {
         String requestBody = objectMapper.writeValueAsString(createRequestBodyObject(notification.getContent()));
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<String> responseEntity =
-                restTemplate.exchange(OPENAI_API_URL, HttpMethod.POST, requestEntity, String.class);
-        String responseBody = responseEntity.getBody();
+        ResponseEntity<OpenAIResponseDto> responseEntity =
+                restTemplate.exchange(OPENAI_API_URL, HttpMethod.POST, requestEntity, OpenAIResponseDto.class);
 
-        System.out.println(responseBody);
-        return null;
+        return responseEntity.getBody().getOpenAIResponses().get(0).getOpenAIMessages().getContent();
     }
 
     private OpenAIRequestDto createRequestBodyObject(String content) {

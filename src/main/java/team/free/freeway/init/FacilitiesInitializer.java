@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import team.free.freeway.domain.Facilities;
 import team.free.freeway.domain.Station;
-import team.free.freeway.init.dto.value.DisabledToilet;
-import team.free.freeway.init.dto.value.StationFacilities;
-import team.free.freeway.init.util.RailPortalAPIManager;
+import team.free.freeway.api.dto.value.DisabledToilet;
+import team.free.freeway.api.dto.value.StationFacilities;
+import team.free.freeway.api.RailPortalAPIManager;
 import team.free.freeway.api.SeoulOpenAPIManager;
 import team.free.freeway.repository.StationRepository;
 

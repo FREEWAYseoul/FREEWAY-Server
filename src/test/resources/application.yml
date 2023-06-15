@@ -13,10 +13,10 @@ rail:
   key: test
 
 driver:
-  path: src/main/resources/chromedriver
+  path: test
 
 target:
-  url: ignore
+  url: test
 
 openai:
-  key: lololololol
+  key: test
