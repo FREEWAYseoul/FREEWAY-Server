@@ -1,3 +1,17 @@
 spring:
-  profiles:
-    active: dev
+  datasource:
+    url: jdbc:mysql://${rds.endpoint}:${rds.port}/${rds.dbname}?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${rds.username}
+    password: ${rds.password}
+
+seoul:
+  key: ${seoulapi.key}
+
+kakao:
+  key: ${kakaoapi.key}
+
+rail:
+  key: ${railapi.key}
+
+server:
+  port: 5000
