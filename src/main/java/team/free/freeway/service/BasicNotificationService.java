@@ -8,7 +8,6 @@ import team.free.freeway.controller.dto.NotificationResponseDto;
 import team.free.freeway.domain.Notification;
 import team.free.freeway.repository.NotificationRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.Map;
 @Service
 public class BasicNotificationService implements NotificationService {
 
-    private static final int BEFORE_DATE = 14;
+//    private static final int BEFORE_DATE = 1_000_000_000;
 
     private final NotificationRepository notificationRepository;
 
@@ -28,8 +27,8 @@ public class BasicNotificationService implements NotificationService {
         List<NotificationResponseDto> notificationResponseDtoList = new ArrayList<>();
         Map<String, List<NotificationResponse>> notificationMap = new HashMap<>();
 
-        LocalDateTime pastDate = get14DaysAgoDate();
-        List<Notification> notifications = notificationRepository.findRecentNotifications(pastDate);
+//        LocalDateTime pastDate = get14DaysAgoDate();
+        List<Notification> notifications = notificationRepository.findAll();
 
         setNotificationMap(notificationMap, notifications);
         for (String date : notificationMap.keySet()) {
@@ -49,8 +48,8 @@ public class BasicNotificationService implements NotificationService {
         }
     }
 
-    private LocalDateTime get14DaysAgoDate() {
+    /*private LocalDateTime get14DaysAgoDate() {
         LocalDateTime now = LocalDateTime.now();
         return now.minusDays(BEFORE_DATE);
-    }
+    }*/
 }
