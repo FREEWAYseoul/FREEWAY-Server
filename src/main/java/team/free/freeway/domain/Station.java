@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.Row;
+import team.free.freeway.api.dto.value.Location;
 import team.free.freeway.domain.value.Coordinate;
 import team.free.freeway.domain.value.StationStatus;
-import team.free.freeway.api.dto.value.Location;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
