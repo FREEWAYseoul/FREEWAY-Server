@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface NotificationService {
 
-    List<NotificationResponseDto> getNotificationsWithinLast14Days();
+    List<NotificationResponseDto> getNotificationsWithinLast90Days();
 }

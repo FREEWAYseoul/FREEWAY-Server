@@ -19,7 +19,7 @@ public class NotificationController {
 
     @GetMapping
     public ResponseEntity<List<NotificationResponseDto>> notificationsWithinLast14Days() {
-        List<NotificationResponseDto> notificationResponseDtolist = notificationService.getNotificationsWithinLast14Days();
+        List<NotificationResponseDto> notificationResponseDtolist = notificationService.getNotificationsWithinLast90Days();
         return ResponseEntity.ok().body(notificationResponseDtolist);
     }
 }

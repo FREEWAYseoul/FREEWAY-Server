@@ -8,7 +8,9 @@ import team.free.freeway.controller.dto.NotificationResponseDto;
 import team.free.freeway.domain.Notification;
 import team.free.freeway.repository.NotificationRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,20 +20,22 @@ import java.util.Map;
 @Service
 public class BasicNotificationService implements NotificationService {
 
-//    private static final int BEFORE_DATE = 1_000_000_000;
+    private static final int BEFORE_DATE = 90;
 
     private final NotificationRepository notificationRepository;
 
     @Override
-    public List<NotificationResponseDto> getNotificationsWithinLast14Days() {
+    public List<NotificationResponseDto> getNotificationsWithinLast90Days() {
         List<NotificationResponseDto> notificationResponseDtoList = new ArrayList<>();
         Map<String, List<NotificationResponse>> notificationMap = new HashMap<>();
 
-//        LocalDateTime pastDate = get14DaysAgoDate();
-        List<Notification> notifications = notificationRepository.findAll();
+        LocalDateTime pastDate = get90DaysAgoDate();
+        List<Notification> notifications = notificationRepository.findRecentNotifications(pastDate);
 
         setNotificationMap(notificationMap, notifications);
-        for (String date : notificationMap.keySet()) {
+        List<String> keys = new ArrayList<>(notificationMap.keySet());
+        keys.sort(Comparator.reverseOrder());
+        for (String date : keys) {
             List<NotificationResponse> notificationResponseList = notificationMap.get(date);
             notificationResponseDtoList.add(NotificationResponseDto.of(date, notificationResponseList));
         }
@@ -48,8 +52,8 @@ public class BasicNotificationService implements NotificationService {
         }
     }
 
-    /*private LocalDateTime get14DaysAgoDate() {
+    private LocalDateTime get90DaysAgoDate() {
         LocalDateTime now = LocalDateTime.now();
         return now.minusDays(BEFORE_DATE);
-    }*/
+    }
 }
