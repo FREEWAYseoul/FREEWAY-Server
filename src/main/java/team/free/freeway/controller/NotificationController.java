@@ -18,7 +18,7 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<List<NotificationResponseDto>> notificationsWithinLast14Days() {
+    public ResponseEntity<List<NotificationResponseDto>> notificationsWithinLast90Days() {
         List<NotificationResponseDto> notificationResponseDtolist = notificationService.getNotificationsWithinLast90Days();
         return ResponseEntity.ok().body(notificationResponseDtolist);
     }

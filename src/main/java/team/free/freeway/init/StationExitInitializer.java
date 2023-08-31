@@ -3,12 +3,12 @@ package team.free.freeway.init;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import team.free.freeway.api.KakaoAPIManager;
+import team.free.freeway.api.dto.value.Location;
 import team.free.freeway.domain.Exit;
 import team.free.freeway.domain.Station;
 import team.free.freeway.domain.value.Coordinate;
-import team.free.freeway.api.dto.value.Location;
 import team.free.freeway.init.util.GeographicalDistanceUtils;
-import team.free.freeway.api.KakaoAPIManager;
 import team.free.freeway.repository.StationExitRepository;
 import team.free.freeway.repository.StationRepository;
 
