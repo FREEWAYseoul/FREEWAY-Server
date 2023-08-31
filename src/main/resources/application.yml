@@ -1,21 +1,3 @@
 spring:
-  datasource:
-    url: jdbc:mysql://${rds.endpoint}:${rds.port}/${rds.dbname}?characterEncoding=UTF-8&serverTimezone=UTC
-    username: ${rds.username}
-    password: ${rds.password}
-
-seoul:
-  key: ${seoulapi.key}
-
-kakao:
-  key: ${kakaoapi.key}
-
-rail:
-  key: ${railapi.key}
-
-server:
-  port: 5000
-  ssl:
-    key-store: classpath:keystore.p12
-    key-store-password: ${ssl.password}
-    key-store-type: PKCS12
+  profiles:
+    active: dev
