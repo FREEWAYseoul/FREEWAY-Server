@@ -39,10 +39,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-tasks.register('copyCerts', Copy) {
-    from 'src/main/resources/certs'
-    into 'build/resources/main/certs'
-}
-
-assemble.dependsOn(copyCerts)
