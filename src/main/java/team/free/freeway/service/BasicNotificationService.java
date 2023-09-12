@@ -37,6 +37,7 @@ public class BasicNotificationService implements NotificationService {
         keys.sort(Comparator.reverseOrder());
         for (String date : keys) {
             List<NotificationResponse> notificationResponseList = notificationMap.get(date);
+            notificationResponseList.sort(Comparator.comparing(NotificationResponse::getTime).reversed());
             notificationResponseDtoList.add(NotificationResponseDto.of(date, notificationResponseList));
         }
 
