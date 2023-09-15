@@ -11,3 +11,7 @@ kakao:
 
 rail:
   key: test
+
+admin:
+  username: test
+  password: test
