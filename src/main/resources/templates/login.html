@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>로그인</title>
+    <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 1rem;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<main class="form-signin w-100 m-auto">
+    <form action="/admin/login" method="POST">
+        <img class="mb-4"
+             src="https://avatars.githubusercontent.com/u/134855574?s=400&u=09718880d02d25b0e0db5e0c3213e3edb4fe385c&v=4"
+             alt="" width="72" height="72">
+        <h1 class="h3 mb-3 fw-normal">FREEWAY 관리자 로그인</h1>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Username" name="username">
+            <label for="floatingInput">관리자 아이디</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+            <label for="floatingPassword">관리자 비밀번호</label>
+        </div>
+        <button class="btn btn-primary w-100 py-2" type="submit">관리자 로그인</button>
+        <p class="mt-5 mb-3 text-body-secondary">© FREEWAY</p>
+    </form>
+</main>
+<script>
+    (() => {
+        'use strict'
+
+        const getStoredTheme = () => localStorage.getItem('theme')
+        const setStoredTheme = theme => localStorage.setItem('theme', theme)
+
+        const getPreferredTheme = () => {
+            const storedTheme = getStoredTheme()
+            if (storedTheme) {
+                return storedTheme
+            }
+
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+
+        const setTheme = theme => {
+            if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+        }
+
+        setTheme(getPreferredTheme())
+
+        const showActiveTheme = (theme, focus = false) => {
+            const themeSwitcher = document.querySelector('#bd-theme')
+
+            if (!themeSwitcher) {
+                return
+            }
+
+            const themeSwitcherText = document.querySelector('#bd-theme-text')
+            const activeThemeIcon = document.querySelector('.theme-icon-active use')
+            const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+            const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
+
+            document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                element.classList.remove('active')
+                element.setAttribute('aria-pressed', 'false')
+            })
+
+            btnToActive.classList.add('active')
+            btnToActive.setAttribute('aria-pressed', 'true')
+            activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+            const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
+            themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
+
+            if (focus) {
+                themeSwitcher.focus()
+            }
+        }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            const storedTheme = getStoredTheme()
+            if (storedTheme !== 'light' && storedTheme !== 'dark') {
+                setTheme(getPreferredTheme())
+            }
+        })
+
+        window.addEventListener('DOMContentLoaded', () => {
+            showActiveTheme(getPreferredTheme())
+
+            document.querySelectorAll('[data-bs-theme-value]')
+                .forEach(toggle => {
+                    toggle.addEventListener('click', () => {
+                        const theme = toggle.getAttribute('data-bs-theme-value')
+                        setStoredTheme(theme)
+                        setTheme(theme)
+                        showActiveTheme(theme, true)
+                    })
+                })
+        })
+    })()
+</script>
+</body>
+</html>

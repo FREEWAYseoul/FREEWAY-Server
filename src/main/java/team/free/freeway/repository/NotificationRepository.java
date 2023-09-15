@@ -12,4 +12,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     @Query("SELECT n FROM Notification n WHERE n.dateTime >= :dateTime")
     List<Notification> findRecentNotifications(@Param("dateTime") LocalDateTime dateTime);
+
+    List<Notification> findNotificationByDateTimeAfterOrderByDateTimeDesc(LocalDateTime dateTime);
 }

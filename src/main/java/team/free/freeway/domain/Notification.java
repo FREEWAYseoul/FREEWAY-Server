@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import team.free.freeway.admin.dto.RegisterNotification;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,5 +44,14 @@ public class Notification {
         this.summary = summary;
         this.content = content;
         this.dateTime = dateTime;
+    }
+
+    public static Notification of(RegisterNotification registerNotification) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return Notification.builder()
+                .summary(registerNotification.getNotificationSummary())
+                .content(registerNotification.getNotificationContents())
+                .dateTime(LocalDateTime.parse(registerNotification.getNotificationDate(), formatter))
+                .build();
     }
 }

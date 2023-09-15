@@ -13,6 +13,10 @@ kakao:
 rail:
   key: ${railapi.key}
 
+admin:
+  username: ${admin.username}
+  password: ${admin.password}
+
 server:
   port: 5000
 #  ssl:
