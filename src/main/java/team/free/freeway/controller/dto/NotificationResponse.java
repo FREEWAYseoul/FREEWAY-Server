@@ -12,12 +12,14 @@ import java.time.LocalTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NotificationResponse {
 
+    private long id;
     private String summary;
     private String content;
     private LocalTime time;
 
     @Builder
-    public NotificationResponse(String summary, String content, LocalTime time) {
+    public NotificationResponse(long id, String summary, String content, LocalTime time) {
+        this.id = id;
         this.summary = summary;
         this.content = content;
         this.time = time;
@@ -25,6 +27,7 @@ public class NotificationResponse {
 
     public static NotificationResponse from(Notification notification) {
         return NotificationResponse.builder()
+                .id(notification.getId())
                 .summary(notification.getSummary())
                 .content(notification.getContent())
                 .time(notification.getDateTime().toLocalTime())

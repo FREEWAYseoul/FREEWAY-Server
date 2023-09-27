@@ -19,3 +19,7 @@ admin:
 
 server:
   port: 5000
+#  ssl:
+#    key-store: classpath:keystore.p12
+#    key-store-password: ${ssl.password}
+#    key-store-type: PKCS12
