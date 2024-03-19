@@ -1,6 +1,7 @@
 package team.free.freeway.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import team.free.freeway.service.StationService;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/stations")
 @RestController
@@ -28,6 +30,7 @@ public class StationController {
 
     @GetMapping
     public ResponseEntity<List<StationListResponseDto>> allStations() {
+        log.info("모든 지하철역 조회");
         List<StationListResponseDto> stationList = stationService.getAllStations();
         return ResponseEntity.ok().body(stationList);
     }
