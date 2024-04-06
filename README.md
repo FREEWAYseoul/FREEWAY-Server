@@ -8,6 +8,8 @@
 
 <img src="https://github.com/FREEWAYseoul/.github/assets/69714701/39e1ddf2-9947-4dc2-884a-c80bdf6e4b85" width="20px" alt="#"/> [iPhone Download](https://apps.apple.com/kr/app/프리웨이/id6465698142)
 
+<img src="https://github.com/FREEWAYseoul/.github/assets/77668478/d27bf638-b4d4-4839-accf-a729d0b8c9cf" width="20px" alt="#"/> [Web](https://freeway-seoul.vercel.app)
+
 ![48](https://github.com/SeSACTHON-FREE-WAY/.github/assets/69714701/40ea43d9-a95c-4a46-b667-b4c4922a1ea7)
 
 ## 프로젝트 소개
