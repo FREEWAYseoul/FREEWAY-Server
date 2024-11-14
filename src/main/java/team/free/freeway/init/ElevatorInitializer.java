@@ -3,6 +3,7 @@ package team.free.freeway.init;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import team.free.freeway.api.SeoulOpenAPIManager;
 import team.free.freeway.api.dto.value.ElevatorLocation;
 import team.free.freeway.api.dto.value.ElevatorStatusInfo;
@@ -49,8 +50,8 @@ public class ElevatorInitializer {
                 continue;
             }
 
-            List<ElevatorLocation> specificElevatorLocationList =
-                    elevatorLocationMap.getOrDefault(stationName, new ArrayList<>());
+            List<ElevatorLocation> specificElevatorLocationList = elevatorLocationMap
+                    .getOrDefault(stationName, new ArrayList<>());
             specificElevatorLocationList.add(elevatorLocation);
             elevatorLocationMap.put(stationName, specificElevatorLocationList);
         }
@@ -60,7 +61,7 @@ public class ElevatorInitializer {
 
     private void mappingStationAndElevator(Map<String, List<ElevatorLocation>> elevatorLocationMap, Station station) {
         List<ElevatorLocation> elevatorLocationList = elevatorLocationMap.get(station.getName());
-        if (elevatorLocationList == null || elevatorLocationList.isEmpty()) {
+        if (CollectionUtils.isEmpty(elevatorLocationList)) {
             return;
         }
 

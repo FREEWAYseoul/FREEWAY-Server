@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StationImage {
 
-    @JsonAlias(value = "STN_NM")
+    @JsonAlias(value = "STTN")
     private String stationName;
 
-    @JsonAlias(value = "STN_LINE")
+    @JsonAlias(value = "SBWY_ROUT_LN")
     private String lineId;
 
-    @JsonAlias(value = "STN_IMG_URL")
+    @JsonAlias(value = "IMG_LINK")
     private String stationImageUrl;
 }

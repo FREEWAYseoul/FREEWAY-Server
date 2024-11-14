@@ -11,22 +11,22 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ElevatorStatusInfo {
 
-    @JsonAlias(value = "STATION_NM")
+    @JsonAlias(value = "STN_NM")
     private String stationName;
 
-    @JsonAlias(value = "FACI_NM")
+    @JsonAlias(value = "ELVTR_NM")
     private String elevatorName;
 
-    @JsonAlias(value = "STUP_LCTN")
+    @JsonAlias(value = "OPR_SEC")
     private String elevatorFloor;
 
-    @JsonAlias(value = "LOCATION")
+    @JsonAlias(value = "INSTL_PSTN")
     private String location;
 
     @JsonAlias(value = "USE_YN")
     private String status;
 
-    @JsonAlias(value = "GUBUN")
+    @JsonAlias(value = "ELVTR_SE")
     private String category;
 
 }

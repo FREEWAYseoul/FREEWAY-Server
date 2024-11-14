@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StationContact {
 
-    @JsonAlias(value = "LINE")
+    @JsonAlias(value = "SBWY_ROUT_LN")
     private String lineName;
 
-    @JsonAlias(value = "STATN_NM")
+    @JsonAlias(value = "SBWY_STNS_NM")
     private String stationName;
 
     @JsonAlias(value = "TELNO")

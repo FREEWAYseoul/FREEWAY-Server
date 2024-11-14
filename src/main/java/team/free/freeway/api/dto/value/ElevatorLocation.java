@@ -13,7 +13,7 @@ public class ElevatorLocation {
     @JsonAlias(value = "NODE_WKT")
     private String wellKnowText;
 
-    @JsonAlias(value = "SW_NM")
+    @JsonAlias(value = "SBWY_STN_NM")
     private String stationName;
 
     public Coordinate extractCoordinate() {

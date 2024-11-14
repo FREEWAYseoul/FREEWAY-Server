@@ -1,6 +1,7 @@
 package team.free.freeway.init;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -28,13 +29,14 @@ import static team.free.freeway.init.constant.StationExcelIndex.LINE_ID_INDEX;
 import static team.free.freeway.init.constant.StationExcelIndex.LINE_NAME_INDEX;
 import static team.free.freeway.init.constant.StationExcelIndex.STATION_NAME_INDEX;
 
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Component
 public class StationInitializer {
 
-    private static final String STATION_CODE_INFO_PATH = "/Users/jcw/Develop/Free-Way/src/main/resources/station_code.xlsx";
-    private static final String NEXT_STATION_INFO_PATH = "/Users/jcw/Develop/Free-Way/src/main/resources/next_station.xlsx";
+    private static final String STATION_CODE_INFO_PATH = "/Users/jcw1031/Develop/TeamProject/Free-Way/src/main/resources/station_code.xlsx";
+    private static final String NEXT_STATION_INFO_PATH = "/Users/jcw1031/Develop/TeamProject/Free-Way/src/main/resources/next_station.xlsx";
 
     private final KakaoAPIManager kakaoAPIManager;
     private final StationRepository stationRepository;
@@ -51,8 +53,9 @@ public class StationInitializer {
             String stationName = row.getCell(STATION_NAME_INDEX).toString();
             stationName = StationNameUtils.getPureStationName(stationName);
 
+            log.info("지하철역 이름: {}, 호선: {}", stationName, lineName);
             Location location = kakaoAPIManager.getStationLocationInfo(stationName, lineName);
-            if (!location.getAddress().startsWith("서울")) {
+            if (location == null || !location.getAddress().startsWith("서울")) {
                 continue;
             }
 
